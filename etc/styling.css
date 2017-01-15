@@ -1,0 +1,153 @@
+* {
+    box-sizing: border-box;
+    border: 1px solid #FFF;
+}
+
+body {
+    font-family: Verdana, sans-serif;
+    color: #000;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.document {
+    background: #FFF;
+    /*margin: auto;*/
+    width: 21cm;
+    min-height: 29.7cm;
+    padding: 0;
+    margin: 0 auto;
+    border: 1px #D3D3D3 solid;
+    background: white;
+}
+
+a {
+    text-decoration: none;
+    font-style: italic;
+}
+
+.container {
+    padding: 0;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+h3 {
+    margin-top: 2px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #000;
+}
+
+#heading,
+#websites,
+#employment .company .company-meta-info,
+#education .school .school-meta-info
+{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+#heading {
+    margin-bottom: 8px;
+}
+
+#heading p {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+#heading .home-address {
+    text-align: left;
+    font-size: 12px;
+}
+
+#heading .name-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#heading .name-container .name {
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold;
+    margin-top: auto;
+}
+
+#heading .phone-email {
+    text-align: right;
+    font-size: 12px;
+}
+
+#websites {
+    justify-content: center;
+}
+
+#websites div {
+    margin-left: 7px;
+    margin-right: 0px;
+    font-size: 13px;
+}
+
+#employment .company {
+    font-size: 13px;
+}
+
+#employment .company .company-meta-info {
+    font-weight: bold;
+}
+
+#employment .company .description {
+    margin-top: 2px;
+}
+
+#education .school {
+    font-size: 13px;
+}
+
+#education .school .school-meta-info {
+    font-weight: bold;
+}
+
+#education .school .degree-info {
+    margin-top: 2px;
+}
+
+#technical-experience .projects-list {
+    font-size: 13px;
+}
+
+#technical-experience .projects-list .project-name {
+    font-weight: bold;
+}
+
+#languages-technologies .skills-list {
+    font-size: 13px;
+}
+
+@page {
+    size: A4;
+    margin: 0;
+}
+
+@media print {
+    html, body {
+        width: 21cm;
+        height: 29.7cm;
+        color: #000;
+    }
+    .document {
+        margin: 0;
+        border: initial;
+        border-radius: initial;
+        width: initial;
+        min-height: initial;
+        box-shadow: initial;
+        background: initial;
+        page-break-after: always;
+    }
+}
