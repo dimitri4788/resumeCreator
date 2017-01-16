@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="An application that creates your resume with ease; no headaches of formatting">
+        <meta name="author" content="Deep Aggarwal">
+        <title>ResumeCreator</title>
+
+        <link href="https://fonts.googleapis.com/css?family=Bitter" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+        <link rel="stylesheet" href="./css/thirdparty/font-awesome-4.7.0/css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="./css/style.css"/>
+        <link rel="stylesheet" href="./css/resume.css"/>
+    </head>
+    <body>
+        <div class="container startup-page">
+            <div class="app-heading">
+                Resume Creator
+            </div>
+
+            <div class="main-buttons">
+                <div class="create-new-resume button">Create New</div> <div class="upload-saved-resume button">
+                    Upload Saved Template
+                    <div class="tip-for-upload-button">Upload the last saved &lt;resume&gt;.template file</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container resume-form">
+            <div id="control-button">
+                <button class="previous-page button"><i class="fa fa-arrow-circle-left back-icon" aria-hidden="true"></i>&nbspBack</button>
+                <button class="save-form button">SAVE</button>
+                <button class="generate-resume button"><i class="fa fa-download download-icon" aria-hidden="true"></i>&nbspResume</button>
+            </div>
+
+            <p class="message">Press Command-S or click SAVE button anytime to save the form so you do not have to refill it</p>
+
+            <div class="personal-info section">
+                <fieldset>
+                    <legend class="personal-info-legend">PERSONAL INFO</legend>
+                    <div class="name">
+                        <span class="label">NAME</span>
+                        <input type="text" placeholder="full name" name="name" class="name">
+                    </div>
+                    <div class="address">
+                        <span class="label">ADDRESS</span>
+                        <input type="text" placeholder="street address" name="street-address" class="street-address">
+                        <input type="text" placeholder="apartment, unit, etc." name="apartment-number" class="apartment-number">
+                        <input type="text" placeholder="city" name="city" class="city">
+                        <input type="text" placeholder="state" name="state" class="state">
+                        <input type="text" placeholder="zip code" name="zip-code" class="zip-code">
+                    </div>
+                    <div class="phone-info">
+                        <span class="label">PHONE#</span>
+                        <input type="text" placeholder="phone#" name="phone" class="phone">
+                    </div>
+                    <div class="email-info">
+                        <span class="label">EMAIL</span>
+                        <input type="text" placeholder="email" name="email" class="email">
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="website-urls section">
+                <fieldset>
+                    <legend class="website-urls-legend">URLS</legend>
+                    <div>
+                        <span class="label">GITHUB</span>
+                        <input type="text" name="github-url" class="github-url">
+                    </div>
+                    <div>
+                        <span class="label">LINKEDIN</span>
+                        <input type="text" name="linkedin-url" class="linkedin-url">
+                    </div>
+                    <div>
+                        <span class="label">TWITTER</span>
+                        <input type="text" name="twitter-url" class="twitter-url">
+                    </div>
+                    <div>
+                        <span class="label">PERSONAL WEBSITE</span>
+                        <input type="text" name="personal-url" class="personal-url">
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="employment-info section">
+                <fieldset>
+                    <legend class="employment-info-legend">EMPLOYMENT <i class="fa fa-plus-circle" aria-hidden="true"></i></legend>
+                    <div class="employment employment-1">
+                        <span class="label"> EMPLOYMENT#1 </span>
+                        <input type="text" placeholder="title" name="title" class="title">
+                        <input type="text" placeholder="company name" name="company-name" class="company-name">
+                        <input type="text" placeholder="time period" name="time-period" class="time-period">
+                        <ul>
+                            <li><input type="text" placeholder="describe what you did" name="description" class="description"></li>
+                            <li></li>
+                        </ul>
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="education-info section">
+                <fieldset>
+                    <legend class="education-info-legend">EDUCATION <i class="fa fa-plus-circle" aria-hidden="true"></i></legend>
+                    <span class="label">
+                        EDUCATION
+                    </span>
+                </fieldset>
+            </div>
+
+            <div class="technical-experience-info section">
+                <fieldset>
+                    <legend class="technical-experience-info-legend">TECHNICAL EXPERIENCE <i class="fa fa-plus-circle" aria-hidden="true"></i></legend>
+                    <span class="label">
+                        TECHNICAL EXPERIENCE
+                    </span>
+                </fieldset>
+            </div>
+
+            <div class="languages-technologies-info section">
+                <fieldset>
+                    <legend class="languages-technologies-info-legend">LANGUAGES AND TECHNOLOGIES <i class="fa fa-plus-circle" aria-hidden="true"></i></legend>
+                    <span class="label">
+                        LANGUAGES and TECHNOLOGIES
+                    </span>
+                </fieldset>
+            </div>
+        </div>
+
+        <script>window.$ = window.jQuery = require("./js/thirdparty/jquery-3.1.1.min.js");</script>
+        <script src="./js/startup.js"></script>
+    </body>
+</html>

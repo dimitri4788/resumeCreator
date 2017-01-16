@@ -1,0 +1,28 @@
+{
+    "personalInfo": {
+        "name": "",
+        "address": {
+            "addressline1": "",
+            "addressline2": "",
+            "city": "",
+            "state": "",
+            "zipcode": ""
+        },
+        "phone": "",
+        "email": ""
+    },
+    "websites": {
+        "github": "",
+        "linkedin": "",
+        "twitter": "",
+        "personalWebsite": ""
+    },
+    "employment": [
+    ],
+    "education": [
+    ],
+    "technicalExperience": [
+    ],
+    "skills": [
+    ]
+}
