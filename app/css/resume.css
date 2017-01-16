@@ -24,13 +24,6 @@ li:before {
     color: #AAA;
 }
 
- /*       <div class="container resume-form">
-            <div id="control-button">
-                <button class="previous-page button"><i class="fa fa-arrow-circle-left back-icon" aria-hidden="true"></i>&nbspBack</button>
-                <button class="save-form button">SAVE</button>
-                <button class="generate-resume button"><i class="fa fa-download download-icon" aria-hidden="true"></i>&nbspResume</button>
-            </div>*/
-
 /* Control buttons */
 #control-button {
     height: 50px;
@@ -73,16 +66,6 @@ li:before {
     color: #909090;
 }
 
-/*
-#submit-button .submit-form.button {
-    width: 100px;
-    height: 45px;
-    line-height: 45px;
-    font-size: 20px;
-    padding: 2px 5px;
-}
-*/
-
 /* Sections */
 .section {
     margin-bottom: 10px;
@@ -119,6 +102,7 @@ input[type=text] {
     padding-left:10px;
     width: 190px;
     box-shadow: 1px 1px 0 #828181 inset;
+    font-size: 15px;
 }
 
 /* input tag placeholder color */
@@ -175,6 +159,7 @@ input[type=text] {
 .website-urls input {
     width: 380px;
 }
+
 .employment-info ul input {
-    width: 929px;
+    width: 695px;
 }
