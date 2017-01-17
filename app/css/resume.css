@@ -9,12 +9,15 @@
     user-select: none;
 }
 
+/*NOTE: Keep it here, just in case I will use it
 ul {
     list-style: none;
-    padding:0;
-    margin: 8px 0;
+    list-style-type: square;
+    padding-left: 10px;
 }
+*/
 
+/* NOTE: Keep this code here, I may use it to customize the bullet symbol
 li {
     padding-left: 10px;
 }
@@ -23,6 +26,7 @@ li:before {
     content: "• ";
     color: #AAA;
 }
+*/
 
 /* Control buttons */
 #control-button {
@@ -72,67 +76,110 @@ li:before {
 }
 
 /* All the labels */
-.resume-form .label {
+.resume-form .label,
+div[class*="header"] i {
     display: inline-block;
-    width: 330px;
+    /*width: 330px; XXX*/
     font-size: 18px;
-    margin-right: 10px;
     color: #AAA;
 }
 
-/* fieldset legend */
-fieldset legend {
+/* fieldset settings */
+fieldset {
+    padding: 0 20px;
+}
+
+fieldset legend, .remove-skill {
     color: #AAA;
     font-weight: bold;
     font-size: 20px;
 }
 
-/* fieldset's divs */
 fieldset div {
-    margin: 0 auto 10px 10px;
+    margin: 0 auto 10px 0;
 }
 
-/* Input fields */
-input[type=text] {
+/* input and textarea fields */
+input[type=text], textarea {
     background-color: #AAA;
     padding-left:10px;
     border: 1px solid #AAA;
     color: #292C2F;
-    height: 25px;
-    padding-left:10px;
-    width: 190px;
     box-shadow: 1px 1px 0 #828181 inset;
     font-size: 15px;
 }
 
-/* input tag placeholder color */
-::-webkit-input-placeholder {
+/* input field specific */
+input[type=text] {
+    height: 25px;
+    width: 190px;
+}
+
+/* textarea field specific */
+textarea {
+    width: 718px;
+    resize: none;
+}
+
+textarea.skill-desc-text {
+    width: 690px;
+}
+
+/* Style textarea height for employment description */
+textarea[class="employment-desc-text"] {
+    height: 130px;
+}
+
+/* Style textarea height for project description */
+textarea[class="project-desc-text"] {
+    height: 42px;
+}
+
+/* Style textarea height and margin for skill description */
+textarea[class="skill-desc-text"] {
+    height: 21px;
+}
+
+/* Move skill block little down */
+.languages-technologies-info .skill {
+    margin-top: 5px;
+}
+
+/* Special styling for i tag in skills */
+.remove-skill {
+    font-size: 18px;
+}
+
+/* input and textarea placeholder styling */
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
     color: #303337;
     opacity: 0.5;
 }
 
-:-moz-placeholder { /* Firefox 18- */
-    color: #303337;
-    opacity: 0.5;
+/* Size and layout of the input fields */
+.personal-info .address .address-input,
+.employment-info .employment-metadata,
+.education-info .education-metadata,
+.technical-experience-info .project-metadata,
+div[class*="header"],
+.skill-metadata {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
 }
 
-::-moz-placeholder {  /* Firefox 19+ */
-    color: #303337;
-    opacity: 0.5;
+.education-info .education-metadata input {
+    margin-bottom: 5px;
 }
 
-:-ms-input-placeholder {
-    color: #303337;
-    opacity: 0.5;
-}
-
-/* Size of the input fields */
 .address .street-address {
     width: 190px;
 }
 
 .address .apartment-number {
-    width: 145px;
+    width: 147px;
 }
 
 .address .city {
@@ -147,10 +194,6 @@ input[type=text] {
     width: 70px;
 }
 
-.phone-info .phone {
-    width: 110px;
-}
-
 /* The circular plus sign */
 .resume-form i {
     cursor: pointer;
@@ -160,6 +203,8 @@ input[type=text] {
     width: 380px;
 }
 
+/*NOTE: Keep it here, just in case I will use it
 .employment-info ul input {
     width: 695px;
 }
+*/

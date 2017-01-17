@@ -29,9 +29,9 @@
 
         <div class="container resume-form">
             <div id="control-button">
-                <button class="previous-page button"><i class="fa fa-arrow-circle-left back-icon" aria-hidden="true"></i>&nbspBack</button>
-                <button class="save-form button"><i class="fa fa-floppy-o" aria-hidden="true"></i>&nbspSave</button>
-                <button class="generate-resume button"><i class="fa fa-download download-icon" aria-hidden="true"></i>&nbspResume</button>
+                <button class="previous-page button" title="Go Back"><i class="fa fa-arrow-circle-left back-icon" aria-hidden="true"></i>&nbspBack</button>
+                <button class="save-form button" title="Save Resume"><i class="fa fa-floppy-o" aria-hidden="true"></i>&nbspSave</button>
+                <button class="generate-resume button" title="Generate Resume"><i class="fa fa-download download-icon" aria-hidden="true"></i>&nbspResume</button>
             </div>
 
             <p class="message">Press Command-S or click Save button anytime to save the form so you do not have to refill it</p>
@@ -41,13 +41,13 @@
                     <legend class="personal-info-legend">PERSONAL INFO</legend>
                     <div class="name">
                         <div class="label">NAME</div>
-                        <div class="name-input input-block">
+                        <div class="name-input">
                             <input type="text" placeholder="full name" name="name" class="name">
                         </div>
                     </div>
                     <div class="address">
                         <div class="label">ADDRESS</div>
-                        <div class="address-input input-block">
+                        <div class="address-input">
                             <input type="text" placeholder="street address" name="street-address" class="street-address">
                             <input type="text" placeholder="apartment, unit, etc." name="apartment-number" class="apartment-number">
                             <input type="text" placeholder="city" name="city" class="city">
@@ -57,13 +57,13 @@
                     </div>
                     <div class="phone-info">
                         <div class="label">PHONE#</div>
-                        <div class="phone-input input-block">
+                        <div class="phone-input">
                             <input type="text" placeholder="phone#" name="phone" class="phone">
                         </div>
                     </div>
                     <div class="email-info">
                         <div class="label">EMAIL</div>
-                        <div class="email-input input-block">
+                        <div class="email-input">
                             <input type="text" placeholder="email" name="email" class="email">
                         </div>
                     </div>
@@ -75,25 +75,25 @@
                     <legend class="website-urls-legend">URLS</legend>
                     <div>
                         <div class="label">GITHUB</div>
-                        <div class="github-url-input input-block">
+                        <div class="github-url-input">
                             <input type="text" name="github-url" class="github-url">
                         </div>
                     </div>
                     <div>
                         <div class="label">LINKEDIN</div>
-                        <div class="linkedin-url-input input-block">
+                        <div class="linkedin-url-input">
                             <input type="text" name="linkedin-url" class="linkedin-url">
                         </div>
                     </div>
                     <div>
                         <div class="label">TWITTER</div>
-                        <div class="twitter-url-input input-block">
+                        <div class="twitter-url-input">
                             <input type="text" name="twitter-url" class="twitter-url">
                         </div>
                     </div>
                     <div>
                         <div class="label">PERSONAL WEBSITE</div>
-                        <div class="personal-url-input input-block">
+                        <div class="personal-url-input">
                             <input type="text" name="personal-url" class="personal-url">
                         </div>
                     </div>
@@ -102,44 +102,71 @@
 
             <div class="employment-info section">
                 <fieldset>
-                    <legend class="employment-info-legend">EMPLOYMENT <i class="fa fa-plus-circle" aria-hidden="true"></i></legend>
-                    <div class="employment employment-1">
-                        <div class="label"> EMPLOYMENT#1 </div>
-                        <div class="employment-metadata input-block">
+                    <legend class="employment-info-legend">EMPLOYMENT <i class="fa fa-plus-circle add-employment" aria-hidden="true"></i></legend>
+                    <div class="employment employment-template">
+                        <div class="employment-header">
+                            <div class="label">EMPLOYMENT</div>
+                            <i class="fa fa-minus-circle remove-employment" aria-hidden="true"></i>
+                        </div>
+                        <div class="employment-metadata">
                             <input type="text" placeholder="title" name="title" class="title">
                             <input type="text" placeholder="company name" name="company-name" class="company-name">
                             <input type="text" placeholder="time period" name="time-period" class="time-period">
                         </div>
-                        <ul>
-                            <li><i class="fa fa-plus-circle" aria-hidden="true"></i></li>
-                        </ul>
+                        <div class="employment-description">
+                            <textarea class="employment-desc-text" placeholder="write description in short sentences, one per line ..."></textarea>
+                        </div>
                     </div>
                 </fieldset>
             </div>
 
             <div class="education-info section">
                 <fieldset>
-                    <legend class="education-info-legend">EDUCATION <i class="fa fa-plus-circle" aria-hidden="true"></i></legend>
-                    <div class="label">
-                        EDUCATION
+                    <legend class="education-info-legend">EDUCATION <i class="fa fa-plus-circle add-education" aria-hidden="true"></i></legend>
+                    <div class="education education-template">
+                        <div class="education-header">
+                            <div class="label">EDUCATION</div>
+                            <i class="fa fa-minus-circle remove-education" aria-hidden="true"></i>
+                        </div>
+                        <div class="education-metadata">
+                            <input type="text" placeholder="city" name="city" class="city">
+                            <input type="text" placeholder="school name" name="school-name" class="school-name">
+                            <input type="text" placeholder="time period" name="time-period" class="time-period">
+                            <input type="text" placeholder="degree" name="degree" class="degree">
+                            <input type="text" placeholder="field of study" name="fieldofstudy" class="field-of-study">
+                            <input type="text" placeholder="grade (GPA)" name="grade" class="grade">
+                        </div>
                     </div>
                 </fieldset>
             </div>
 
             <div class="technical-experience-info section">
                 <fieldset>
-                    <legend class="technical-experience-info-legend">TECHNICAL EXPERIENCE <i class="fa fa-plus-circle" aria-hidden="true"></i></legend>
-                    <div class="label">
-                        TECHNICAL EXPERIENCE
+                    <legend class="technical-experience-info-legend">TECHNICAL EXPERIENCE <i class="fa fa-plus-circle add-project" aria-hidden="true"></i></legend>
+                    <div class="project project-template">
+                        <div class="project-header">
+                            <div class="label">PROJECT</div>
+                            <i class="fa fa-minus-circle remove-project" aria-hidden="true"></i>
+                        </div>
+                        <div class="project-metadata">
+                            <input type="text" placeholder="project name" name="projectname" class="project-name">
+                            <input type="text" placeholder="time period" name="time-period" class="time-period">
+                        </div>
+                        <div class="project-description">
+                            <textarea class="project-desc-text" placeholder="write a one line description and in the next line write technologies used ..."></textarea>
+                        </div>
                     </div>
                 </fieldset>
             </div>
 
             <div class="languages-technologies-info section">
                 <fieldset>
-                    <legend class="languages-technologies-info-legend">LANGUAGES AND TECHNOLOGIES <i class="fa fa-plus-circle" aria-hidden="true"></i></legend>
-                    <div class="label">
-                        LANGUAGES and TECHNOLOGIES
+                    <legend class="languages-technologies-info-legend">LANGUAGES AND TECHNOLOGIES <i class="fa fa-plus-circle add-skill" aria-hidden="true"></i></legend>
+                    <div class="skill skill-template">
+                        <div class="skill-metadata">
+                            <i class="fa fa-minus-circle remove-skill" aria-hidden="true"></i>
+                            <textarea class="skill-desc-text" placeholder="write your skills, group similar ones together ..."></textarea>
+                        </div>
                     </div>
                 </fieldset>
             </div>
