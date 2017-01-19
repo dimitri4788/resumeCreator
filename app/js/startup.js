@@ -6,8 +6,6 @@ const {BrowserWindow} = require("electron").remote;
 var Handlebars = require("handlebars");
 
 function getBuiltPath() {
-    "use strict";
-
     var appUserDataPath = require("electron").remote.getGlobal("sharedSettingObj").appUserDataPath;
     console.log("appUserDataPath: " +  appUserDataPath);
     return appUserDataPath;
@@ -16,44 +14,10 @@ function getBuiltPath() {
 
 //Magic starts here
 function main() {
-    "use strict";
-
-    $(".create-new-resume").click(function() {
-        $(".startup-page").fadeOut("slow", function() {
-            $(".resume-form").fadeIn("slow");
+    $("#create-new-resume").click(function() {
+        $("#startup-page").fadeOut("slow", function() {
+            $("#resume-form").fadeIn("slow");
         });
-    });
-
-    //Add new employment template when user click on plus
-    $(".add-employment").click(function() {
-        //Get the required elements and append child template
-        var $employmentFieldset = $(".employment-info fieldset");
-        var $employmentTemplate = $(".employment-template").html();
-        $employmentFieldset.append($employmentTemplate);
-    });
-
-    //Add new education template when user click on plus
-    $(".add-education").click(function() {
-        //Get the required elements and append child template
-        var $educationFieldset = $(".education-info fieldset");
-        var $educationTemplate = $(".education-template").html();
-        $educationFieldset.append($educationTemplate);
-    });
-
-    //Add new project template when user click on plus
-    $(".add-project").click(function() {
-        //Get the required elements and append child template
-        var $projectFieldset = $(".technical-experience-info fieldset");
-        var $projectTemplate = $(".project-template").html();
-        $projectFieldset.append($projectTemplate);
-    });
-
-    //Add new skill template when user click on plus
-    $(".add-skill").click(function() {
-        //Get the required elements and append child template
-        var $skillFieldset = $(".languages-technologies-info fieldset");
-        var $skillTemplate = $(".skill-template").html();
-        $skillFieldset.append($skillTemplate);
     });
 
 
@@ -81,11 +45,11 @@ function main() {
     //win.webContents.on("did-finish-load", () => {
     //    // Use default printing options
     //    win.webContents.printToPDF({pageSize: "A4"}, (error, data) => {
-    //        if (error) {
+    //        if(error) {
     //            throw error;
     //        }
     //        fs.writeFile("/Users/deep/Desktop/print.pdf", data, (error) => {
-    //            if (error) {
+    //            if(error) {
     //                throw error;
     //            }
     //            console.log("Write PDF successfully.");
@@ -94,34 +58,34 @@ function main() {
     //});
 
     /*
-    $(".create-new-resume").click(function(event) {
+    $("#create-new-resume").click(function(event) {
         event.preventDefault();
-        $(".startup-page").fadeOut("slow", function() {
-            $(".resume-form").fadeIn("slow");
+        $("#startup-page").fadeOut("slow", function() {
+            $("#resume-form").fadeIn("slow");
         });
     });
 
-    $(".resume-form .previous-page").click(function(event) {
+    $("#resume-form .previous-page").click(function(event) {
         event.preventDefault();
-        $(".resume-form").fadeOut("slow", function() {
-            $(".startup-page").fadeIn("slow");
+        $("#resume-form").fadeOut("slow", function() {
+            $("#startup-page").fadeIn("slow");
         });
     });
 
-    $(".resume-form .generate-resume").click(function(event) {
+    $("#resume-form .generate-resume").click(function(event) {
         event.preventDefault();
-        var fullname = $(".resume-form .name #fullname").val();
-        var email = $(".resume-form .email #email").val();
-        var phonenumber = $(".resume-form .phone-number #phone-number").val();
-        var addressline1 = $(".resume-form .home-address #address-line-1").val();
-        var addressline2 = $(".resume-form .home-address #address-line-2").val();
-        var city = $(".resume-form .home-address #city").val();
-        var state = $(".resume-form .home-address #state").val();
-        var zipCode = $(".resume-form .home-address #zip-code").val();
-        var githubUrl = $(".resume-form .websites #github-url").val();
-        var linkedinUrl = $(".resume-form .websites #linkedin-url").val();
-        var twitterUrl = $(".resume-form .websites #twitter-url").val();
-        var portfolioUrl = $(".resume-form .websites #portfolio-url").val();
+        var fullname = $("#resume-form .name #fullname").val();
+        var email = $("#resume-form .email #email").val();
+        var phonenumber = $("#resume-form .phone-number #phone-number").val();
+        var addressline1 = $("#resume-form .home-address #address-line-1").val();
+        var addressline2 = $("#resume-form .home-address #address-line-2").val();
+        var city = $("#resume-form .home-address #city").val();
+        var state = $("#resume-form .home-address #state").val();
+        var zipCode = $("#resume-form .home-address #zip-code").val();
+        var githubUrl = $("#resume-form .websites #github-url").val();
+        var linkedinUrl = $("#resume-form .websites #linkedin-url").val();
+        var twitterUrl = $("#resume-form .websites #twitter-url").val();
+        var portfolioUrl = $("#resume-form .websites #portfolio-url").val();
 
         fullname = "deep Aggarwal";
         email = "deep.uiuc@gmail.com";
@@ -138,8 +102,8 @@ function main() {
         console.log(twitterUrl);
         console.log(portfolioUrl);
 
-    $(".resume-form .document .name #fullname").focusout(function() {
-        var vvv = $(".resume-form .document .name #fullname").val();
+    $("#resume-form .document .name #fullname").focusout(function() {
+        var vvv = $("#resume-form .document .name #fullname").val();
         //var vvv = $(this).val();
         $(this).replaceWith("<span>"+vvv+"</span>");
     });
@@ -147,6 +111,65 @@ function main() {
          //doc.text("Hello world!", 10, 10);
          //doc.save("a4.pdf");
          //*/
+
+    //Modal: make a modal that pops-up if there are unsaved changes in the form
 }
 
-$(document).ready(main());
+document.addEventListener("DOMContentLoaded", function(event) {
+    var createNewResumeButton = document.getElementById("create-new-resume");
+    var previousPageButton = document.getElementById("previous-page");
+    var startupPage = document.getElementById("startup-page");
+    var resumeForm = document.getElementById("resume-form");
+    var startupPageClasslist = startupPage.classList;
+    var resumeFormClasslist = resumeForm.classList;
+
+    //Click event when create new resume is clicked
+    createNewResumeButton.addEventListener("click", function() {
+        startupPageClasslist.add("disappear");
+        resumeFormClasslist.add("appear");
+    });
+
+    //Click event when back button is clicked
+    previousPageButton.addEventListener("click", function() {
+        resumeFormClasslist.remove("appear");
+        startupPageClasslist.remove("disappear");
+    });
+
+    //Add employment template
+    var addEmploymentButton = document.querySelector(".add-employment");
+    var employmentInfoFieldset = document.querySelector(".employment-info fieldset");
+    var employmentTemplate = document.querySelector(".employment-template");
+    addEmploymentButton.addEventListener("click", function() {
+        var clonedEmploymentTemplate = employmentTemplate.cloneNode(true);
+        employmentInfoFieldset.appendChild(clonedEmploymentTemplate);
+    });
+
+    //Add education template
+    var addEducationButton = document.querySelector(".add-education");
+    var educationInfoFieldset = document.querySelector(".education-info fieldset");
+    var educationTemplate = document.querySelector(".education-template");
+    addEducationButton.addEventListener("click", function() {
+        var clonedEducationTemplate = educationTemplate.cloneNode(true);
+        educationInfoFieldset.appendChild(clonedEducationTemplate);
+    });
+
+    //Add project template
+    var addProjectButton = document.querySelector(".add-project");
+    var projectFieldset = document.querySelector(".technical-experience-info fieldset");
+    var projectTemplate = document.querySelector(".project-template");
+    addProjectButton.addEventListener("click", function() {
+        var clonedProjectTemplate = projectTemplate.cloneNode(true);
+        projectFieldset.appendChild(clonedProjectTemplate);
+    });
+
+    //Add new skill template
+    var addSkillButton = document.querySelector(".add-skill");
+    var skillFieldset = document.querySelector(".languages-technologies-info fieldset");
+    var skillTemplate = document.querySelector(".skill-template");
+    addSkillButton.addEventListener("click", function() {
+        var clonedSkillTemplate = skillTemplate.cloneNode(true);
+        skillFieldset.appendChild(clonedSkillTemplate);
+    });
+
+
+});

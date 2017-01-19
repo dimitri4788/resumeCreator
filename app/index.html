@@ -14,24 +14,25 @@
         <link rel="stylesheet" href="./css/resume.css"/>
     </head>
     <body>
-        <div class="container startup-page">
+        <div id="startup-page" class="container">
             <div class="app-heading">
                 Resume Creator
             </div>
 
             <div class="main-buttons">
-                <div class="create-new-resume button">Create New</div> <div class="upload-saved-resume button">
+                <div id="create-new-resume" class="button">Create New</div>
+                <div id="upload-saved-resume" class="button">
                     Upload Saved Template
                     <div class="tip-for-upload-button">Upload the last saved &lt;resume&gt;.template file</div>
                 </div>
             </div>
         </div>
 
-        <div class="container resume-form">
+        <div id="resume-form" class="container">
             <div id="control-button">
-                <button class="previous-page button" title="Go Back"><i class="fa fa-arrow-circle-left back-icon" aria-hidden="true"></i>&nbspBack</button>
-                <button class="save-form button" title="Save Resume"><i class="fa fa-floppy-o" aria-hidden="true"></i>&nbspSave</button>
-                <button class="generate-resume button" title="Generate Resume"><i class="fa fa-download download-icon" aria-hidden="true"></i>&nbspResume</button>
+                <button id="previous-page" class="button" title="Go Back"><i class="fa fa-arrow-circle-left back-icon" aria-hidden="true"></i>&nbspBack</button>
+                <button id="save-form" class="button" title="Save Resume"><i class="fa fa-floppy-o" aria-hidden="true"></i>&nbspSave</button>
+                <button id="generate-resume" class="button" title="Generate Resume"><i class="fa fa-download download-icon" aria-hidden="true"></i>&nbspResume</button>
             </div>
 
             <p class="message">Press Command-S or click Save button anytime to save the form so you do not have to refill it</p>
@@ -172,7 +173,6 @@
             </div>
         </div>
 
-        <script>window.$ = window.jQuery = require("./js/thirdparty/jquery-3.1.1.min.js");</script>
         <script src="./js/startup.js"></script>
     </body>
 </html>

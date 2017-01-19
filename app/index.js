@@ -50,7 +50,7 @@ function createMainWindow() {
         resizable: false,
         maximizable: false,
         title: "ResumeCreator",
-        backgroundColor: "#787878"
+        backgroundColor: "#292C2F"
     });
 
     //Load the index.html of the app

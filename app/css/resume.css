@@ -1,5 +1,5 @@
 /* Whole form */
-.resume-form {
+#resume-form {
     display: none;
     width: 780px;
     margin: 25px auto;
@@ -7,6 +7,11 @@
     font-family: "Slabo 27px", serif;
     -webkit-user-select: none;
     user-select: none;
+}
+
+/* appear class for resume-form to show it */
+#resume-form.appear {
+    display: block;
 }
 
 /*NOTE: Keep it here, just in case I will use it
@@ -36,9 +41,9 @@ li:before {
     flex-direction: row;
 }
 
-#control-button .previous-page,
-#control-button .save-form,
-#control-button .generate-resume {
+#control-button #previous-page,
+#control-button #save-form,
+#control-button #generate-resume {
     font-size: 25px;
     margin-bottom: 10px;
     width: 120px;
@@ -76,7 +81,7 @@ li:before {
 }
 
 /* All the labels */
-.resume-form .label,
+#resume-form .label,
 div[class*="header"] i {
     display: inline-block;
     /*width: 330px; XXX*/
@@ -195,7 +200,7 @@ div[class*="header"],
 }
 
 /* The circular plus sign */
-.resume-form i {
+#resume-form i {
     cursor: pointer;
 }
 

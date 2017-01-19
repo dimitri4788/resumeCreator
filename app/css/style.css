@@ -9,13 +9,18 @@ body {
 }
 
 /* Startup page */
-.startup-page {
+#startup-page {
     margin: auto;
     text-align: center;
 }
 
+/* disappear class for resume-form to hide it */
+#startup-page.disappear {
+    display: none;
+}
+
 /* Startup page heading */
-.startup-page .app-heading {
+#startup-page .app-heading {
     font-size: 100px;
     font-family: 'Ubuntu', sans-serif;
     margin-top: 35px;
@@ -23,7 +28,7 @@ body {
 }
 
 /* Startup page buttons */
-.startup-page .main-buttons {
+#startup-page .main-buttons {
     margin-top: 135px;
 }
 
@@ -55,15 +60,15 @@ body {
     top: 1px;
 }
 
-.startup-page .upload-saved-resume {
+#startup-page #upload-saved-resume {
     position: relative;
 }
 
-.startup-page .upload-saved-resume:hover .tip-for-upload-button {
+#startup-page #upload-saved-resume:hover .tip-for-upload-button {
     visibility: visible;
 }
 
-.startup-page .upload-saved-resume .tip-for-upload-button {
+#startup-page #upload-saved-resume .tip-for-upload-button {
     /* Position the tip */
     position: absolute;
     top: 61px;
