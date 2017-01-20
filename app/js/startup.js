@@ -1,3 +1,7 @@
+/*
+ * This module is where resume creator starts-up
+ */
+
 const fs = require("fs");
 const path = require("path");
 const url = require("url");
@@ -5,12 +9,19 @@ const url = require("url");
 const {BrowserWindow} = require("electron").remote;
 var Handlebars = require("handlebars");
 
+const resumeForm = require("./js/resumeform");
+
+//Get the elements
+var createNewResumeButton = document.getElementById("create-new-resume");
+var startupPage = document.getElementById("startup-page");
+var resumeFormPage = document.getElementById("resume-form");
+
+
 function getBuiltPath() {
     var appUserDataPath = require("electron").remote.getGlobal("sharedSettingObj").appUserDataPath;
     console.log("appUserDataPath: " +  appUserDataPath);
     return appUserDataPath;
 }
-
 
 //Magic starts here
 function main() {
@@ -116,12 +127,8 @@ function main() {
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {
-    var createNewResumeButton = document.getElementById("create-new-resume");
-    var previousPageButton = document.getElementById("previous-page");
-    var startupPage = document.getElementById("startup-page");
-    var resumeForm = document.getElementById("resume-form");
     var startupPageClasslist = startupPage.classList;
-    var resumeFormClasslist = resumeForm.classList;
+    var resumeFormClasslist = resumeFormPage.classList;
 
     //Click event when create new resume is clicked
     createNewResumeButton.addEventListener("click", function() {
@@ -129,47 +136,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
         resumeFormClasslist.add("appear");
     });
 
-    //Click event when back button is clicked
-    previousPageButton.addEventListener("click", function() {
-        resumeFormClasslist.remove("appear");
-        startupPageClasslist.remove("disappear");
-    });
-
-    //Add employment template
-    var addEmploymentButton = document.querySelector(".add-employment");
-    var employmentInfoFieldset = document.querySelector(".employment-info fieldset");
-    var employmentTemplate = document.querySelector(".employment-template");
-    addEmploymentButton.addEventListener("click", function() {
-        var clonedEmploymentTemplate = employmentTemplate.cloneNode(true);
-        employmentInfoFieldset.appendChild(clonedEmploymentTemplate);
-    });
-
-    //Add education template
-    var addEducationButton = document.querySelector(".add-education");
-    var educationInfoFieldset = document.querySelector(".education-info fieldset");
-    var educationTemplate = document.querySelector(".education-template");
-    addEducationButton.addEventListener("click", function() {
-        var clonedEducationTemplate = educationTemplate.cloneNode(true);
-        educationInfoFieldset.appendChild(clonedEducationTemplate);
-    });
-
-    //Add project template
-    var addProjectButton = document.querySelector(".add-project");
-    var projectFieldset = document.querySelector(".technical-experience-info fieldset");
-    var projectTemplate = document.querySelector(".project-template");
-    addProjectButton.addEventListener("click", function() {
-        var clonedProjectTemplate = projectTemplate.cloneNode(true);
-        projectFieldset.appendChild(clonedProjectTemplate);
-    });
-
-    //Add new skill template
-    var addSkillButton = document.querySelector(".add-skill");
-    var skillFieldset = document.querySelector(".languages-technologies-info fieldset");
-    var skillTemplate = document.querySelector(".skill-template");
-    addSkillButton.addEventListener("click", function() {
-        var clonedSkillTemplate = skillTemplate.cloneNode(true);
-        skillFieldset.appendChild(clonedSkillTemplate);
-    });
-
-
+    //Add the click events to add templates on the resume page
+    resumeForm.addEmployment();
+    resumeForm.addEducation();
+    resumeForm.addProject();
+    resumeForm.addSkill();
+    resumeForm.goToStartupPage();
 });
