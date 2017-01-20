@@ -213,3 +213,11 @@ div[class*="header"],
     width: 695px;
 }
 */
+
+/* Don't show any templates */
+.employment-template,
+.education-template,
+.project-template,
+.skill-template {
+    display: none;
+}

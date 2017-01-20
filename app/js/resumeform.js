@@ -1,6 +1,5 @@
 /*
- * This module handles various events on the resume
- * form page
+ * This module handles events on the resume form page
  */
 
 //Back button
@@ -30,6 +29,7 @@ var skillTemplate = document.querySelector(".skill-template");
 var addEmployment = function addEmployment() {
     addEmploymentButton.addEventListener("click", function() {
         var clonedEmploymentTemplate = employmentTemplate.cloneNode(true);
+        clonedEmploymentTemplate.classList.remove("employment-template");
         employmentInfoFieldset.appendChild(clonedEmploymentTemplate);
     });
 };
@@ -38,6 +38,7 @@ var addEmployment = function addEmployment() {
 var addEducation = function addEducation() {
     addEducationButton.addEventListener("click", function() {
         var clonedEducationTemplate = educationTemplate.cloneNode(true);
+        clonedEducationTemplate.classList.remove("education-template");
         educationInfoFieldset.appendChild(clonedEducationTemplate);
     });
 };
@@ -46,6 +47,7 @@ var addEducation = function addEducation() {
 var addProject = function addProject() {
     addProjectButton.addEventListener("click", function() {
         var clonedProjectTemplate = projectTemplate.cloneNode(true);
+        clonedProjectTemplate.classList.remove("project-template");
         projectFieldset.appendChild(clonedProjectTemplate);
     });
 };
@@ -54,18 +56,16 @@ var addProject = function addProject() {
 var addSkill = function addSkill() {
     addSkillButton.addEventListener("click", function() {
         var clonedSkillTemplate = skillTemplate.cloneNode(true);
+        clonedSkillTemplate.classList.remove("skill-template");
         skillFieldset.appendChild(clonedSkillTemplate);
     });
 };
 
 //Go to startup page when back button is clicked
 var goToStartupPage = function goToStartupPage() {
-    startupPageClasslist = startupPage.classList;
-    resumeFormClasslist = resumeFormPage.classList;
-
     previousPageButton.addEventListener("click", function() {
-        resumeFormClasslist.remove("appear");
-        startupPageClasslist.remove("disappear");
+        resumeFormPage.classList.remove("appear");
+        startupPage.classList.remove("disappear");
     });
 }
 

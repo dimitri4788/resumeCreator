@@ -127,16 +127,13 @@ function main() {
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {
-    var startupPageClasslist = startupPage.classList;
-    var resumeFormClasslist = resumeFormPage.classList;
-
     //Click event when create new resume is clicked
     createNewResumeButton.addEventListener("click", function() {
-        startupPageClasslist.add("disappear");
-        resumeFormClasslist.add("appear");
+        startupPage.classList.add("disappear");
+        resumeFormPage.classList.add("appear");
     });
 
-    //Add the click events to add templates on the resume page
+    //Click events to add templates on the resume page
     resumeForm.addEmployment();
     resumeForm.addEducation();
     resumeForm.addProject();
