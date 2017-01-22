@@ -6,22 +6,12 @@ const fs = require("fs");
 const path = require("path");
 const url = require("url");
 
-const {BrowserWindow} = require("electron").remote;
-var Handlebars = require("handlebars");
-
 const resumeForm = require("./js/resumeform");
 
 //Get the elements
 var createNewResumeButton = document.getElementById("create-new-resume");
 var startupPage = document.getElementById("startup-page");
 var resumeFormPage = document.getElementById("resume-form");
-
-
-function getBuiltPath() {
-    var appUserDataPath = require("electron").remote.getGlobal("sharedSettingObj").appUserDataPath;
-    console.log("appUserDataPath: " +  appUserDataPath);
-    return appUserDataPath;
-}
 
 //Magic starts here
 function main() {
@@ -69,20 +59,6 @@ function main() {
     //});
 
     /*
-    $("#create-new-resume").click(function(event) {
-        event.preventDefault();
-        $("#startup-page").fadeOut("slow", function() {
-            $("#resume-form").fadeIn("slow");
-        });
-    });
-
-    $("#resume-form .previous-page").click(function(event) {
-        event.preventDefault();
-        $("#resume-form").fadeOut("slow", function() {
-            $("#startup-page").fadeIn("slow");
-        });
-    });
-
     $("#resume-form .generate-resume").click(function(event) {
         event.preventDefault();
         var fullname = $("#resume-form .name #fullname").val();
@@ -112,16 +88,12 @@ function main() {
         console.log(linkedinUrl);
         console.log(twitterUrl);
         console.log(portfolioUrl);
-
-    $("#resume-form .document .name #fullname").focusout(function() {
-        var vvv = $("#resume-form .document .name #fullname").val();
-        //var vvv = $(this).val();
-        $(this).replaceWith("<span>"+vvv+"</span>");
     });
-        // Default export is a4 paper, portrait, using milimeters for units
-         //doc.text("Hello world!", 10, 10);
-         //doc.save("a4.pdf");
-         //*/
+
+    //Default export is a4 paper, portrait, using milimeters for units
+    //doc.text("Hello world!", 10, 10);
+    //doc.save("a4.pdf");
+    */
 
     //Modal: make a modal that pops-up if there are unsaved changes in the form
 }
@@ -133,10 +105,31 @@ document.addEventListener("DOMContentLoaded", function(event) {
         resumeFormPage.classList.add("appear");
     });
 
+    //TODO
+    //When user clicks on upload the previosuly saved template button and open a dialog and let the user select a file
+    //The file will be the *.json file saved in ~/Library/Application\ Support/ResumeCreator/<filename.json>
+
+    //TODO
+    //
+
     //Click events to add templates on the resume page
     resumeForm.addEmployment();
     resumeForm.addEducation();
     resumeForm.addProject();
     resumeForm.addSkill();
+
+    //Click events to remove templates on the resume page
+    resumeForm.removeEmployment();
+    resumeForm.removeEducation();
+    resumeForm.removeProject();
+    resumeForm.removeSkill();
+
+    //When back button gets clicked go to startup page
     resumeForm.goToStartupPage();
+
+    //When command-S or save button is clicked, save the resume form
+    resumeForm.saveForm();
+
+    //Generate resume when resume button is clicked
+    resumeForm.generateResume();
 });

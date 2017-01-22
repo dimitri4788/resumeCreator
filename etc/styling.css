@@ -76,6 +76,7 @@ h3 {
     font-size: 26px;
     font-weight: bold;
     margin-top: auto;
+    text-transform: uppercase;
 }
 
 #heading .phone-email {
