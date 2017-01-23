@@ -5,6 +5,8 @@
 const {BrowserWindow} = require("electron").remote;
 var Handlebars = require("handlebars");
 
+const utilities = require("./utils");
+
 /*********************/
 /*      Private      */
 /*********************/
@@ -72,7 +74,8 @@ var addEmployment = function addEmployment() {
         clonedEmploymentTemplate.classList.remove("employment-template");
         clonedEmploymentTemplate.id = "employment-" + idForEmployments;
         var newObj = {};
-        newObj["employment-" + idForEmployments] = clonedEmploymentTemplate;
+        newObj.id = "employment-" + idForEmployments;
+        newObj.template = clonedEmploymentTemplate;
         empArr.push(newObj);
         employmentInfoFieldset.appendChild(clonedEmploymentTemplate);
     });
@@ -84,7 +87,7 @@ var removeEmployment = function removeEmployment() {
         if(event.target && event.target.className.indexOf("remove-") >= 0) {
             var grandParent = event.target.parentElement.parentElement;
             var idOfGrandParent = grandParent.id;
-            delete empArr[idOfGrandParent];
+            empArr = empArr.filter(function(item) { return item.id !== idOfGrandParent; });
             employmentInfoFieldset.removeChild(grandParent);
         }
     });
@@ -98,7 +101,8 @@ var addEducation = function addEducation() {
         clonedEducationTemplate.classList.remove("education-template");
         clonedEducationTemplate.id = "education-" + idForEducations;
         var newObj = {};
-        newObj["education-" + idForEducations] = clonedEducationTemplate;
+        newObj.id = "education-" + idForEducations;
+        newObj.template = clonedEducationTemplate;
         eduArr.push(newObj);
         educationInfoFieldset.appendChild(clonedEducationTemplate);
     });
@@ -110,7 +114,7 @@ var removeEducation = function removeEducation() {
         if(event.target && event.target.className.indexOf("remove-") >= 0) {
             var grandParent = event.target.parentElement.parentElement;
             var idOfGrandParent = grandParent.id;
-            delete eduArr[idOfGrandParent];
+            eduArr = eduArr.filter(function(item) { return item.id !== idOfGrandParent; });
             educationInfoFieldset.removeChild(grandParent);
         }
     });
@@ -119,12 +123,13 @@ var removeEducation = function removeEducation() {
 //Add project template
 var addProject = function addProject() {
     addProjectButton.addEventListener("click", function() {
-        idForProjects++; //FIXME
+        idForProjects++;
         var clonedProjectTemplate = projectTemplate.cloneNode(true);
         clonedProjectTemplate.classList.remove("project-template");
         clonedProjectTemplate.id = "project-" + idForProjects;
         var newObj = {};
-        newObj["project-" + idForProjects] = clonedProjectTemplate;
+        newObj.id = "project-" + idForProjects;
+        newObj.template = clonedProjectTemplate;
         projArr.push(newObj);
         projectFieldset.appendChild(clonedProjectTemplate);
     });
@@ -136,7 +141,7 @@ var removeProject = function removeProject() {
         if(event.target && event.target.className.indexOf("remove-") >= 0) {
             var grandParent = event.target.parentElement.parentElement;
             var idOfGrandParent = grandParent.id;
-            delete projArr[idOfGrandParent];
+            projArr = projArr.filter(function(item) { return item.id !== idOfGrandParent; });
             projectFieldset.removeChild(grandParent);
         }
     });
@@ -145,12 +150,13 @@ var removeProject = function removeProject() {
 //Add new skill template
 var addSkill = function addSkill() {
     addSkillButton.addEventListener("click", function() {
-        idForSkills++; //FIXME
+        idForSkills++;
         var clonedSkillTemplate = skillTemplate.cloneNode(true);
         clonedSkillTemplate.classList.remove("skill-template");
         clonedSkillTemplate.id = "skill-" + idForSkills;
         var newObj = {};
-        newObj["skill-" + idForSkills] = clonedSkillTemplate;
+        newObj.id = "skill-" + idForSkills;
+        newObj.template = clonedSkillTemplate;
         skillArr.push(newObj);
         skillFieldset.appendChild(clonedSkillTemplate);
     });
@@ -162,7 +168,7 @@ var removeSkill = function removeSkill() {
         if(event.target && event.target.className.indexOf("remove-") >= 0) {
             var grandParent = event.target.parentElement.parentElement;
             var idOfGrandParent = grandParent.id;
-            delete skillArr[idOfGrandParent];
+            skillArr = skillArr.filter(function(item) { return item.id !== idOfGrandParent; });
             skillFieldset.removeChild(grandParent);
         }
     });
@@ -190,7 +196,7 @@ var generateResume = function generateResume() {
         //Initialize the resume template
         initializeResumeTemplate();
 
-        //Get all the data input'ed by the user
+        //Get all the data input'ed by the user and fill resumeFormTemplate
         resumeFormTemplate.personalInfo.name = document.querySelector(".personal-info .fullname").value;
         resumeFormTemplate.personalInfo.address.addressline1 = document.querySelector(".personal-info .street-address").value;
         resumeFormTemplate.personalInfo.address.addressline2 = document.querySelector(".personal-info .apartment-number").value;
@@ -203,132 +209,83 @@ var generateResume = function generateResume() {
         resumeFormTemplate.websites.linkedin = document.querySelector(".website-urls .linkedin-url").value;
         resumeFormTemplate.websites.twitter = document.querySelector(".website-urls .twitter-url").value;
         resumeFormTemplate.websites.personalWebsite = document.querySelector(".website-urls .personal-url").value;
-        //TODO change this for loop to iterating for the empArr and using that to create newEmp object
-        for(var nEmp = 1; nEmp <= idForEmployments; nEmp++) { //FIXME
-            var empInfo = document.querySelector(".employment-info .employment-" + nEmp);
-            //console.log(empInfo.querySelector(".title").value);
-            //console.log(empInfo.querySelector(".company-name").value);
+        empArr.forEach(function(value, index) {
+            var empInfo = document.querySelector(".employment-info #" + value.id);
             var newEmp = {};
             newEmp.title = empInfo.querySelector(".title").value;
             newEmp.companyname = empInfo.querySelector(".company-name").value;
             newEmp.timeperiod = empInfo.querySelector(".time-period").value;
-            newEmp.description = [];
-            newEmp.description.push(empInfo.querySelector("textarea").value);
+            newEmp.description = empInfo.querySelector("textarea").value.split("\n");
             resumeFormTemplate.employment.push(newEmp);
-        }
-/*
-            <div class="employment-info section">
-                <fieldset>
-                    <legend class="employment-info-legend">EMPLOYMENT <i class="fa fa-plus-circle add-employment" aria-hidden="true"></i></legend>
-                    <div class="employment employment-template">
-                        <div class="employment-header">
-                            <div class="label">EMPLOYMENT</div>
-                            <i class="fa fa-minus-circle remove-employment" aria-hidden="true"></i>
-                        </div>
-                        <div class="employment-metadata">
-                            <input type="text" placeholder="title" name="title" class="title">
-                            <input type="text" placeholder="company name" name="company-name" class="company-name">
-                            <input type="text" placeholder="time period" name="time-period" class="time-period">
-                        </div>
-                        <div class="employment-description">
-                            <textarea class="employment-desc-text" placeholder="write description in short sentences, one per line ..."></textarea>
-                        </div>
-                    </div>
-                </fieldset>
-            </div>
-            */
-        /*
-        {
-            "employment": [
-                 {
-                     "title": "SE",
-                     "companyname": "Google",
-                     "timeperiod": "March - April",
-                     "description": [
-                         "I was a busbiy",
-                         "I developed this",
-                         "I developed that"
-                     ]
-                 },
-                 {
-                     "title": "HE",
-                     "companyname": "Citrix",
-                     "timeperiod": "Dec - May",
-                     "description": [
-                         "Created hh",
-                         "I created this and that"
-                     ]
-                 }
-            ],
-            "education": [
-                 {
-                     "city": "",
-                     "schoolname": "",
-                     "timeperiod": "",
-                     "degree": "",
-                     "fieldofstudy": "",
-                     "grade": ""
-                 },
-                 {
-                     "city": "",
-                     "schoolname": "",
-                     "timeperiod": "",
-                     "degree": "",
-                     "fieldofstudy": "",
-                     "grade": ""
-                 }
-            ],
-            "technicalExperience": [
-                 {
-                     "projectname": "",
-                     "timeperiod": "",
-                     "description": ""
-                 }
-            ],
-            "skills": [
-                "",
-                "",
-                ""
-            ]
-        }
-        */
+        });
+        eduArr.forEach(function(value, index) {
+            var eduInfo = document.querySelector(".education-info #" + value.id);
+            var newEdu = {};
+            newEdu.city = eduInfo.querySelector(".city").value;
+            newEdu.state = eduInfo.querySelector(".state").value;
+            newEdu.schoolname = eduInfo.querySelector(".school-name").value;
+            newEdu.timeperiod = eduInfo.querySelector(".time-period").value;
+            newEdu.degree = eduInfo.querySelector(".degree").value;
+            newEdu.fieldofstudy = eduInfo.querySelector(".field-of-study").value;
+            newEdu.month = eduInfo.querySelector(".month-of-graduation").value;
+            newEdu.year = eduInfo.querySelector(".year-of-graduation").value;
+            newEdu.grade = eduInfo.querySelector(".grade").value;
+            resumeFormTemplate.education.push(newEdu);
+            console.log(resumeFormTemplate);
+        });
+        projArr.forEach(function(value, index) {
+            var projInfo = document.querySelector(".technical-experience-info #" + value.id);
+            var newProj = {};
+            newProj.projectname = projInfo.querySelector(".project-name").value;
+            newProj.timeperiod = projInfo.querySelector(".time-period").value;
+            var descp = projInfo.querySelector("textarea").value.split("\n");
+            newProj.description = descp[0];
+            newProj.technologies = descp[1];
+            resumeFormTemplate.technicalExperience.push(newProj);
+            console.log(resumeFormTemplate);
+        });
+        skillArr.forEach(function(value, index) {
+            var skillInfo = document.querySelector(".languages-technologies-info #" + value.id);
+            resumeFormTemplate.skills.push(skillInfo.querySelector("textarea").value);
+            console.log(resumeFormTemplate);
+        });
 
-
+        //Read in the resume template and fill with data using handlebar (templating engine)
+        console.log("resumeFormTemplate: " + resumeFormTemplate);
         var source = fs.readFileSync(getUserDataPath()+"/myresume.html").toString();
         var template = Handlebars.compile(source);
-        //var data = { "myname": "Deep Aggarwal", "hometown": "Champaign" };
-        //var data = fs.readFileSync(getUserDataPath()+"/delme.json").toString();
-        //var data = require(getUserDataPath()+"/delme.json");
-
-        //console.log("data: " + data.personalInfo.name);
-        console.log("resumeFormTemplate 3: " + resumeFormTemplate);
-        //data.personalInfo.name = "Zsa Lu";
-        //var result = template(data);
         var result = template(resumeFormTemplate);
-        //console.log("result: " + result);
-        fs.writeFileSync(getUserDataPath()+"/temp2.html", result);
 
-        //TODO add comments everywhere
-        let win = new BrowserWindow({width: 840, height: 600, show: false});
+        //Write the generated html to a temporary file
+        fs.writeFileSync(getUserDataPath()+"/tempDoc.html", result);
 
-        //Load the index.html of the app
+        //Create a new window in the background; this window is generated to create a pdf document
+        let win = new BrowserWindow({
+            width: 840,
+            height: 600,
+            show: false
+        });
+
+        //Load the temporary html in this background window
         win.loadURL(url.format({
-            pathname: path.join(getUserDataPath(), "temp2.html"),
+            pathname: path.join(getUserDataPath(), "tempDoc.html"),
             protocol: "file:",
             slashes: true
         }));
 
+        //Create a pdf file from this html document
         win.webContents.on("did-finish-load", () => {
-            // Use default printing options
+            //Use default printing options
             win.webContents.printToPDF({pageSize: "A4"}, (error, data) => {
                 if(error) {
                     throw error;
                 }
+                //TODO: ask user the file name and location to save the resume file to
                 fs.writeFile("/Users/deep/Desktop/print.pdf", data, (error) => {
                     if(error) {
                         throw error;
                     }
-                    console.log("Write PDF successfully.");
+                    console.log("Wrote PDF file successfully.");
                 });
             });
         });

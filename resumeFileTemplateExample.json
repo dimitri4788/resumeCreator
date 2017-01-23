@@ -1,0 +1,61 @@
+{
+    "personalInfo": {
+        "name": "Deep Aggarwal",
+        "address": {
+            "addressline1": "999 Bloomington Ave",
+            "addressline2": "Apt - 44",
+            "city": "Hakalulu",
+            "state": "XZ",
+            "zipcode": "60033"
+        },
+        "phone": "999-888-8989",
+        "email": "me@gmail.com"
+    },
+    "websites": {
+        "github": "link@github.com",
+        "linkedin": "link@linkedin.com",
+        "twitter": "link@twitter.com",
+        "personalWebsite": "link@heroku.com"
+    },
+    "employment": [
+        {
+            "title": "SE",
+            "companyname": "Giggle Ic.",
+            "timeperiod": "March - April",
+            "description": [
+                "I was a bus boy",
+                "I developed this",
+                "I developed that"
+            ]
+        },
+        ...
+    ],
+    "education": [
+        {
+            "city": "Champaign",
+            "state": "IL",
+            "schoolname": "UIUC",
+            "timeperiod": "2010 - 2013",
+            "degree": "MS",
+            "fieldofstudy": "CS",
+            "month": "Dec",
+            "year": "2013",
+            "grade": "3.99/4.00"
+        },
+        ...
+    ],
+    "technicalExperience": [
+        {
+            "projectname": "Personal Website",
+            "timeperiod": "2016",
+            "description": "My personal website",
+            "technologies": "JavaScript, HTML"
+        },
+        ...
+    ],
+    "skills": [
+        "C, C++",
+        "Eclipse, Xcode",
+        "Git, Perforce"
+    ]
+}
