@@ -4,6 +4,7 @@
 
 const fs = require("fs");
 const {BrowserWindow} = require("electron").remote;
+const {dialog} = require("electron").remote;
 var Handlebars = require("handlebars");
 
 const utilities = require("./utils");
@@ -46,9 +47,6 @@ var initializeTrackingVariables = function initializeTrackingVariables() {
     idForSkills = 0;
 };
 
-/*********************/
-/*      Public       */
-/*********************/
 //Back button element
 var previousPageButton = document.getElementById("previous-page");
 
@@ -88,7 +86,6 @@ var addEmployment = function addEmployment() {
         clonedEmploymentTemplate.id = "employment-" + idForEmployments;
         var newObj = {};
         newObj.id = "employment-" + idForEmployments;
-        newObj.dirtybit = 0; //TODO do for other sections too
         newObj.template = clonedEmploymentTemplate;
         empArr.push(newObj);
         employmentInfoFieldset.appendChild(clonedEmploymentTemplate);
@@ -188,27 +185,53 @@ var removeSkill = function removeSkill() {
     });
 };
 
+var goBack = function goBack() {
+    //Initialize the resume template
+    initializeResumeTemplate();
+
+    //Initialize the tracking variables
+    initializeTrackingVariables();
+
+    //Empty all the input and textarea fields
+    var allUserInputElements = document.querySelectorAll("input, textarea");
+    var numOfInputs = allUserInputElements.length;
+    for(var i = 0; i < numOfInputs; i++) {
+        allUserInputElements[i].value = "";
+    }
+
+    //Go back
+    resumeFormPage.classList.remove("appear");
+    startupPage.classList.remove("disappear");
+};
+
 //Go to startup page when back button is clicked
 var goToStartupPage = function goToStartupPage() {
     previousPageButton.addEventListener("click", function() {
-        //TODO modal dialog to ask for NO/YES if there are unsaved changes in the form
-
-        //Initialize the resume template
-        initializeResumeTemplate();
-
-        //Initialize the tracking variables
-        initializeTrackingVariables();
-
-        //Empty all the input and textarea fields
-        var allUserInputElements = document.querySelectorAll("input, textarea");
-        var numOfInputs = allUserInputElements.length;
-        for(var i = 0; i < numOfInputs; i++) {
-            allUserInputElements[i].value = "";
+        //Show dialog message for confirmation if any of the input fields
+        //  are dirty, i.e. there are unsaved changes in the form
+        var inputElems = document.querySelectorAll("input, textarea");
+        var unsavedForm = false;
+        for(var i = 0; i < inputElems.length; i++) {
+            if(inputElems[i].value !== "") {
+                unsavedForm = true;
+            }
         }
-
-        //Go back
-        resumeFormPage.classList.remove("appear");
-        startupPage.classList.remove("disappear");
+        if(unsavedForm) {
+            var options = {
+                type: "question",
+                buttons: [ "Yes", "No" ],
+                title: "Confirm unsaved form deletion",
+                message: "Are you sure you want to go back and lose your unsaved changes?"
+            };
+            dialog.showMessageBox(options, function cback(response) {
+                if(response === 0) {
+                    goBack();
+                }
+            });
+        }
+        else {
+            goBack();
+        }
     });
 };
 
@@ -235,17 +258,14 @@ var generateResume = function generateResume() {
         resumeFormTemplate.websites.twitter = document.querySelector(".website-urls .twitter-url").value;
         resumeFormTemplate.websites.personalWebsite = document.querySelector(".website-urls .personal-url").value;
         empArr.forEach(function(value, index) {
-            //if(value.dirtybit !== 1) { //TODO: this needs to be worked on else if user makes an update to the field, the resume won't show the change
-                var empInfo = document.querySelector(".employment-info #" + value.id);
-                var newEmp = {};
-                newEmp.title = empInfo.querySelector(".title").value;
-                newEmp.companyname = empInfo.querySelector(".company-name").value;
-                newEmp.timeperiod = empInfo.querySelector(".time-period").value;
-                newEmp.description = empInfo.querySelector("textarea").value.split("\n");
-                newEmp.description = newEmp.description.filter(function(item) { return item !== ""; });
-                resumeFormTemplate.employment.push(newEmp);
-                value.dirtybit = 1;
-            //}
+            var empInfo = document.querySelector(".employment-info #" + value.id);
+            var newEmp = {};
+            newEmp.title = empInfo.querySelector(".title").value;
+            newEmp.companyname = empInfo.querySelector(".company-name").value;
+            newEmp.timeperiod = empInfo.querySelector(".time-period").value;
+            newEmp.description = empInfo.querySelector("textarea").value.split("\n");
+            newEmp.description = newEmp.description.filter(function(item) { return item !== ""; });
+            resumeFormTemplate.employment.push(newEmp);
         });
         eduArr.forEach(function(value, index) {
             var eduInfo = document.querySelector(".education-info #" + value.id);
@@ -323,6 +343,9 @@ var generateResume = function generateResume() {
     });
 };
 
+/*********************/
+/*      Public       */
+/*********************/
 //This function sets up all the event handlers for the form and
 //  it is called only once
 var setupForm = function setupForm() {
