@@ -2,6 +2,7 @@
  * This module handles events on the resume form page
  */
 
+const fs = require("fs");
 const {BrowserWindow} = require("electron").remote;
 var Handlebars = require("handlebars");
 
@@ -16,21 +17,33 @@ var getUserDataPath = function getUserDataPath() {
 };
 
 //Keep track of all added: employments, educations, projects and skills
-var empArr = [];
-var eduArr = [];
-var projArr = [];
-var skillArr = [];
-var idForEmployments = 0;
-var idForEducations = 0;
-var idForProjects = 0;
-var idForSkills = 0;
+var empArr,
+    eduArr,
+    projArr,
+    skillArr,
+    idForEmployments,
+    idForEducations,
+    idForProjects,
+    idForSkills;
 
 //Resume form template
 var resumeFormTemplate;
 
 //This function initializes the resumeFormTemplate
-var initializeResumeTemplate = function resetState() {
-    resumeFormTemplate = require(getUserDataPath()+"/resumeFileTemplate.json");
+var initializeResumeTemplate = function initializeResumeTemplate() {
+    resumeFormTemplate = JSON.parse(fs.readFileSync(getUserDataPath()+"/resumeFileTemplate.json"));
+};
+
+//This function initializes the global variables that track employments, educations, projects and skills
+var initializeTrackingVariables = function initializeTrackingVariables() {
+    empArr = [];
+    eduArr = [];
+    projArr = [];
+    skillArr = [];
+    idForEmployments = 0;
+    idForEducations = 0;
+    idForProjects = 0;
+    idForSkills = 0;
 };
 
 /*********************/
@@ -75,6 +88,7 @@ var addEmployment = function addEmployment() {
         clonedEmploymentTemplate.id = "employment-" + idForEmployments;
         var newObj = {};
         newObj.id = "employment-" + idForEmployments;
+        newObj.dirtybit = 0; //TODO do for other sections too
         newObj.template = clonedEmploymentTemplate;
         empArr.push(newObj);
         employmentInfoFieldset.appendChild(clonedEmploymentTemplate);
@@ -177,8 +191,22 @@ var removeSkill = function removeSkill() {
 //Go to startup page when back button is clicked
 var goToStartupPage = function goToStartupPage() {
     previousPageButton.addEventListener("click", function() {
+        //TODO modal dialog to ask for NO/YES if there are unsaved changes in the form
+
         //Initialize the resume template
         initializeResumeTemplate();
+
+        //Initialize the tracking variables
+        initializeTrackingVariables();
+
+        //Empty all the input and textarea fields
+        var allUserInputElements = document.querySelectorAll("input, textarea");
+        var numOfInputs = allUserInputElements.length;
+        for(var i = 0; i < numOfInputs; i++) {
+            allUserInputElements[i].value = "";
+        }
+
+        //Go back
         resumeFormPage.classList.remove("appear");
         startupPage.classList.remove("disappear");
     });
@@ -193,9 +221,6 @@ var saveForm = function saveForm() {
 //Generate resume
 var generateResume = function generateResume() {
     resumeButton.addEventListener("click", function() {
-        //Initialize the resume template
-        initializeResumeTemplate();
-
         //Get all the data input'ed by the user and fill resumeFormTemplate
         resumeFormTemplate.personalInfo.name = document.querySelector(".personal-info .fullname").value;
         resumeFormTemplate.personalInfo.address.addressline1 = document.querySelector(".personal-info .street-address").value;
@@ -210,13 +235,17 @@ var generateResume = function generateResume() {
         resumeFormTemplate.websites.twitter = document.querySelector(".website-urls .twitter-url").value;
         resumeFormTemplate.websites.personalWebsite = document.querySelector(".website-urls .personal-url").value;
         empArr.forEach(function(value, index) {
-            var empInfo = document.querySelector(".employment-info #" + value.id);
-            var newEmp = {};
-            newEmp.title = empInfo.querySelector(".title").value;
-            newEmp.companyname = empInfo.querySelector(".company-name").value;
-            newEmp.timeperiod = empInfo.querySelector(".time-period").value;
-            newEmp.description = empInfo.querySelector("textarea").value.split("\n");
-            resumeFormTemplate.employment.push(newEmp);
+            //if(value.dirtybit !== 1) { //TODO: this needs to be worked on else if user makes an update to the field, the resume won't show the change
+                var empInfo = document.querySelector(".employment-info #" + value.id);
+                var newEmp = {};
+                newEmp.title = empInfo.querySelector(".title").value;
+                newEmp.companyname = empInfo.querySelector(".company-name").value;
+                newEmp.timeperiod = empInfo.querySelector(".time-period").value;
+                newEmp.description = empInfo.querySelector("textarea").value.split("\n");
+                newEmp.description = newEmp.description.filter(function(item) { return item !== ""; });
+                resumeFormTemplate.employment.push(newEmp);
+                value.dirtybit = 1;
+            //}
         });
         eduArr.forEach(function(value, index) {
             var eduInfo = document.querySelector(".education-info #" + value.id);
@@ -231,7 +260,6 @@ var generateResume = function generateResume() {
             newEdu.year = eduInfo.querySelector(".year-of-graduation").value;
             newEdu.grade = eduInfo.querySelector(".grade").value;
             resumeFormTemplate.education.push(newEdu);
-            console.log(resumeFormTemplate);
         });
         projArr.forEach(function(value, index) {
             var projInfo = document.querySelector(".technical-experience-info #" + value.id);
@@ -242,16 +270,16 @@ var generateResume = function generateResume() {
             newProj.description = descp[0];
             newProj.technologies = descp[1];
             resumeFormTemplate.technicalExperience.push(newProj);
-            console.log(resumeFormTemplate);
         });
         skillArr.forEach(function(value, index) {
             var skillInfo = document.querySelector(".languages-technologies-info #" + value.id);
-            resumeFormTemplate.skills.push(skillInfo.querySelector("textarea").value);
-            console.log(resumeFormTemplate);
+            var skillText = skillInfo.querySelector("textarea").value;
+            if(skillText) {
+                resumeFormTemplate.skills.push(skillText);
+            }
         });
 
         //Read in the resume template and fill with data using handlebar (templating engine)
-        console.log("resumeFormTemplate: " + resumeFormTemplate);
         var source = fs.readFileSync(getUserDataPath()+"/myresume.html").toString();
         var template = Handlebars.compile(source);
         var result = template(resumeFormTemplate);
@@ -286,23 +314,78 @@ var generateResume = function generateResume() {
                         throw error;
                     }
                     console.log("Wrote PDF file successfully.");
+
+                    //Initialize the resume template FIXME: remove me most likely
+                    initializeResumeTemplate();
                 });
             });
         });
     });
 };
 
+//This function sets up all the event handlers for the form and
+//  it is called only once
+var setupForm = function setupForm() {
+    //TODO
+    //var elements =  document.querySelectorAll("input, textarea");
+    //for(var i = 0; i < elements.length; i++) {
+    //    elements[i].addEventListener("input", function() {
+    //        console.log(this.value);
+    //    });
+    //}
+
+    //Click events to add templates on the resume page
+    addEmployment();
+    addEducation();
+    addProject();
+    addSkill();
+
+    //Click events to remove templates on the resume page
+    removeEmployment();
+    removeEducation();
+    removeProject();
+    removeSkill();
+
+    //When back button gets clicked go to startup page
+    goToStartupPage();
+
+    //When command-S or save button is clicked, save the resume form
+    saveForm();
+
+    //Generate resume when resume button is clicked
+    generateResume();
+};
+
+//This functions initializes the form by removing dynamically added fields
+//  and initializing resume-form template and tracking variables
+var initializeForm = function initializeForm() {
+    //Remove all the dynamically added elements
+    var dynamicEmps = employmentInfoFieldset.getElementsByTagName("div");
+    var dynamicEdus = educationInfoFieldset.getElementsByTagName("div");
+    var dynamicProjs = projectFieldset.getElementsByTagName("div");
+    var dynamicSkills = skillFieldset.getElementsByTagName("div");
+    while(dynamicEmps[0]) {
+        dynamicEmps[0].parentNode.removeChild(dynamicEmps[0]);
+    }
+    while(dynamicEdus[0]) {
+        dynamicEdus[0].parentNode.removeChild(dynamicEdus[0]);
+    }
+    while(dynamicProjs[0]) {
+        dynamicProjs[0].parentNode.removeChild(dynamicProjs[0]);
+    }
+    while(dynamicSkills[0]) {
+        dynamicSkills[0].parentNode.removeChild(dynamicSkills[0]);
+    }
+
+    //Initialize the resume template
+    initializeResumeTemplate();
+
+    //Initialize the tracking variables
+    initializeTrackingVariables();
+};
+
 //Export the public functions
 module.exports = {
-    addEmployment,
-    addEducation,
-    addProject,
-    addSkill,
-    removeEmployment,
-    removeEducation,
-    removeProject,
-    removeSkill,
-    goToStartupPage,
-    saveForm,
-    generateResume
+    initializeForm,
+    setupForm
 };
