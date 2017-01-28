@@ -40,6 +40,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     //Also, provide cross next to the file so user can delete the file if they want, so that past templates can be deleted
     //or have three button on that dialog: cancel, open and delete
 
+
     //Setup the resume form
     resumeForm.setupForm();
 });

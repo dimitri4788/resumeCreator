@@ -303,8 +303,7 @@ var goToStartupPage = function goToStartupPage() {
     });
 };
 
-//Ask user for filename when either command-S is pressed or
-//  save button is clicked
+//Ask user for filename when save button is clicked
 var showDialogToGetFileName = function showDialogToGetFileName() {
     saveFormButton.addEventListener("click", function() {
         //Show the modal dialog
@@ -452,7 +451,7 @@ var setupForm = function setupForm() {
     //When back button gets clicked go to startup page
     goToStartupPage();
 
-    //When command-S or save button is clicked, ask user for file name
+    //When save button is clicked, ask user for file name
     showDialogToGetFileName();
 
     //Register events when cancel or done button is clicked in the modal dialog
