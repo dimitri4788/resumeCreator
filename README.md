@@ -4,7 +4,7 @@ Resume Creator
 An application that lets you create your resume with ease and no headaches of formatting; written using Electron and <http://electron.atom.io/>.
 
 <p align="center">
-    <img src="resources/images/appImageSmall.png">
+    <img src="resources/images/appImage3.png">
 </p>
 
 ### Features

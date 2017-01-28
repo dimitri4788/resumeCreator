@@ -23,7 +23,7 @@
                 <div id="create-new-resume" class="button">Create New</div>
                 <div id="upload-saved-resume" class="button">
                     Upload Saved Template
-                    <div class="tip-for-upload-button">Upload the last saved &lt;resume&gt;.template file</div>
+                    <div class="tip-for-upload-button">Upload from the saved template file(s)</div>
                 </div>
             </div>
         </div>
@@ -173,6 +173,26 @@
                         </div>
                     </div>
                 </fieldset>
+            </div>
+        </div>
+
+        <!-- The modal gets fired when Save button is clicked; asks user for file name -->
+        <div id="save-modal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Save resume template file</h2>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-input">
+                        <span id="modal-filename-label">Save as:</span>
+                        <input type="text" id="modal-filename-input" placeholder="Enter file name ...">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="m-button" id="modal-cancel-button">Cancel</button>
+                    <button type="button" class="m-button" id="modal-done-button">Done</button>
+                </div>
             </div>
         </div>
 

@@ -1,6 +1,8 @@
 body {
     box-sizing: border-box;
     background: #292C2F;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 /* Main container */
@@ -50,9 +52,10 @@ body {
 }
 
 .button:hover {
-    background: #AAA;
+    /*background: #AAA;*/
+    color: #AAA;
     cursor: pointer;
-    opacity: 0.8;
+    /*opacity: 0.8;*/
 }
 
 .button:active {
@@ -72,12 +75,12 @@ body {
     /* Position the tip */
     position: absolute;
     top: 61px;
-    left: -30px;
+    left: -15px;
     z-index: 1;
 
     visibility: hidden;
     margin: 0px auto;
-    width: 385px;
+    width: 355px;
     height: 18px;
     background-color: #303337;
     color: #AAA;

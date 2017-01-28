@@ -37,9 +37,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
     //TODO
     //When user clicks on upload the previosuly saved template button and open a dialog and let the user select a file
     //The file will be the *.json file saved in ~/Library/Application\ Support/ResumeCreator/<filename.json>
-
-    //TODO
-    //BUG: everytime I press Resume button for the current form that user is filling, it appends the child for employment, education, project and skill sections, it should not do that
+    //Also, provide cross next to the file so user can delete the file if they want, so that past templates can be deleted
+    //or have three button on that dialog: cancel, open and delete
 
     //Setup the resume form
     resumeForm.setupForm();
