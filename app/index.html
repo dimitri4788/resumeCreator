@@ -176,9 +176,40 @@
             </div>
         </div>
 
+        <!-- The modal gets fired when upload template button is clicked; asks user to select a file -->
+        <div id="open-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Open Saved Template File</h2>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-input">
+                        <div id="select-template-label">Select a saved template</div>
+                        <select id="select-template-list" size="5">
+                            <option value="volvo">Volvo</option>
+                            <option value="saab">Saab</option>
+                            <option value="mercedes">Mercedes</option>
+                            <option value="volvo">Volvo</option>
+                            <option value="volvo">Volvo</option>
+                            <option value="saab">Saab</option>
+                            <option value="mercedes">Mercedes</option>
+                            <option value="saab">Saab</option>
+                            <option value="mercedes">Mercedes</option>
+                            <option value="audi">Audi</option>
+                        </select>
+                        <div id="error-message"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="m-button" id="omodal-cancel-button">Cancel</button>
+                    <button type="button" class="m-button" id="omodal-delete-button">Delete</button>
+                    <button type="button" class="m-button" id="omodal-open-button">Open</button>
+                </div>
+            </div> <!-- /.modal-content -->
+        </div> <!-- /.modal -->
+
         <!-- The modal gets fired when Save button is clicked; asks user for file name -->
         <div id="save-modal" class="modal">
-            <!-- Modal content -->
             <div class="modal-content">
                 <div class="modal-header">
                     <h2 class="modal-title">Save resume template file</h2>
@@ -190,11 +221,11 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="m-button" id="modal-cancel-button">Cancel</button>
-                    <button type="button" class="m-button" id="modal-done-button">Done</button>
+                    <button type="button" class="m-button" id="smodal-cancel-button">Cancel</button>
+                    <button type="button" class="m-button" id="smodal-done-button">Done</button>
                 </div>
-            </div>
-        </div>
+            </div> <!-- /.modal-content -->
+        </div> <!-- /.modal -->
 
         <script src="./js/startup.js"></script>
     </body>

@@ -282,17 +282,17 @@ div[class*="header"],
 }
 
 .modal-body {
-    padding: 2px 16px;
-    height: 50px;
-    line-height: 50px;
+    padding: 16px 16px 0px 16px;
+    height: 47px;
+    /*line-height: 50px;*/
 }
 
-.modal-body .modal-input span {
+.modal-body .modal-input #modal-filename-label {
     font-size: 20px;
     padding-right: 5px;
 }
 
-.modal-body .modal-input input[type=text] {
+.modal-body .modal-input #modal-filename-input {
     width: 290px;
 }
 

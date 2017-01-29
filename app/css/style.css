@@ -93,3 +93,61 @@ body {
     font-family: "Slabo 27px", serif;
     line-height: 18px;
 }
+
+/*
+        <div id="open-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Open Saved Template File</h2>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-input">
+                        <div id="select-template-label">Select a template</div>
+                        <select id="select-template-list" size="5">
+                             <option value="volvo">Volvo</option>
+                               <option value="saab">Saab</option>
+                                 <option value="mercedes">Mercedes</option>
+                                   <option value="audi">Audi</option>
+                        </select>
+                        <div id="error-message"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="m-button" id="omodal-cancel-button">Cancel</button>
+                    <button type="button" class="m-button" id="omodal-delete-button">Delete</button>
+                    <button type="button" class="m-button" id="omodal-open-button">Open</button>
+                </div>
+            </div>
+        </div>
+                        */
+
+#open-modal .modal-body {
+    height: 135px;
+}
+
+#open-modal .modal-body .modal-input #select-template-label {
+    font-size: 20px;
+    padding-right: 5px;
+}
+
+#open-modal .modal-body .modal-input select {
+    display: block;
+    margin-top: 7px;
+    width: 100%;
+    background: #AAA;
+    border: 1px solid #222;
+    border-radius: 4px;
+    font-size: 14px;
+    height: 90px;
+    padding: 6px 12px;
+    line-height: 1.42857143;
+    color: #333;
+}
+
+#open-modal .modal-footer button:nth-child(2) {
+    margin-right: 5px;
+}
+
+#open-modal .modal-footer button:nth-child(3) {
+    margin-right: 10px;
+}

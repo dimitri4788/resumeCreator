@@ -1,13 +1,11 @@
 /*
- * This module handles events on the resume form page
+ * This module handles resume form page
  */
 
 const fs = require("fs");
 const {BrowserWindow} = require("electron").remote;
 const {dialog} = require("electron").remote;
 var Handlebars = require("handlebars");
-
-const utilities = require("./utils"); //XXX
 
 /*********************/
 /*      Private      */
@@ -23,11 +21,11 @@ var previousPageButton = document.getElementById("previous-page");
 var saveFormButton = document.getElementById("save-form");
 var resumeButton = document.getElementById("generate-resume");
 
-//Modal dialog elements: cancel and done buttons; modal
-var modal = document.getElementById("save-modal");
-var modalInput = document.getElementById("modal-filename-input");
-var cancelButton = document.getElementById("modal-cancel-button");
-var doneButton = document.getElementById("modal-done-button");
+//Save modal dialog elements
+var saveModal = document.getElementById("save-modal");
+var saveModalInput = document.getElementById("modal-filename-input");
+var saveModalCancelButton = document.getElementById("smodal-cancel-button");
+var saveModalDoneButton = document.getElementById("smodal-done-button");
 
 //Employment related elements
 var addEmploymentButton = document.querySelector(".add-employment");
@@ -306,18 +304,18 @@ var goToStartupPage = function goToStartupPage() {
 //Ask user for filename when save button is clicked
 var showDialogToGetFileName = function showDialogToGetFileName() {
     saveFormButton.addEventListener("click", function() {
-        //Show the modal dialog
-        modal.style.display = "block";
+        //Show the saveModal dialog
+        saveModal.style.display = "block";
 
         //Put focus on the input element
-        modalInput.focus();
+        saveModalInput.focus();
 
-        //If user clicks outside of the modal, close the modal
+        //If user clicks outside of the saveModal, close the modal
         document.addEventListener("click", function(event) {
-            if(event.target === modal) {
-                modalInput.placeholder = "Enter file name ...";
-                modalInput.style.border = null;
-                modal.style.display = "none";
+            if(event.target === saveModal) {
+                saveModalInput.placeholder = "Enter file name ...";
+                saveModalInput.style.border = null;
+                saveModal.style.display = "none";
             }
         });
     });
@@ -325,22 +323,22 @@ var showDialogToGetFileName = function showDialogToGetFileName() {
 
 //Save resume template
 var saveResumeTemplate = function saveResumeTemplate() {
-    cancelButton.addEventListener("click", function() {
-        modalInput.placeholder = "Enter file name ...";
-        modalInput.style.border = null;
-        modal.style.display = "none";
+    saveModalCancelButton.addEventListener("click", function() {
+        saveModalInput.placeholder = "Enter file name ...";
+        saveModalInput.style.border = null;
+        saveModal.style.display = "none";
     });
 
-    doneButton.addEventListener("click", function() {
+    saveModalDoneButton.addEventListener("click", function() {
         console.log("done button was clicked");
         //Get the filename entered
-        var filename = modalInput.value;
+        var filename = saveModalInput.value;
         console.log("filename: " + filename);
 
         //Validate that the filename should not be empty
         if(filename === "") {
-            modalInput.style.border = "2px solid red";
-            modalInput.placeholder = "ERROR: You need to type a file name ...";
+            saveModalInput.style.border = "2px solid red";
+            saveModalInput.placeholder = "ERROR: You need to type a file name ...";
             return;
         }
 
@@ -352,9 +350,9 @@ var saveResumeTemplate = function saveResumeTemplate() {
            filename === "Preferences" ||
            filename === "resumeFileTemplate.json" ||
            filename === "tempDoc.html") {
-            modalInput.value = "";
-            modalInput.style.border = "2px solid red";
-            modalInput.placeholder = "ERROR: please type a different name ...";
+            saveModalInput.value = "";
+            saveModalInput.style.border = "2px solid red";
+            saveModalInput.placeholder = "ERROR: please type a different name ...";
             return;
         }
 
@@ -365,7 +363,7 @@ var saveResumeTemplate = function saveResumeTemplate() {
             if(err) {
                 return console.error("Error while writing file \"" + resumeTemplateFilePath + "\": " + err);
             }
-            modal.style.display = "none";
+            saveModal.style.display = "none";
         });
     });
 };
