@@ -98,22 +98,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
         //Upload the resume form file data into the form page so user can continue editing
         resumeForm.uploadFormDataIntoFormPage(cacheSelectedFile);
-
-        //TODO
-        //When a person selects a file from the upload template button select, set that file as the filename in the dialog input that pops-up
-        //when the user clicks the Save button. Still open the Save button dialog, but now the filename will be pre-filled
-        //Pre-fill the filename in the save form dialog
-        //
-        //resumeForm.saveModalInput.value = cacheSelectedFile; XXX
     });
 
     //Change event for select element when an option is selected
     openModalSelect.addEventListener("change", function() {
         openModalMessage.innerHTML = "";
     });
-
-    //TODO
-    //Back button should not show dialog if the form is saved and is not dirty
 
     //Setup the resume form
     resumeForm.setupForm();

@@ -19,6 +19,7 @@ const utils = require("./utils");
 var previousPageButton = document.getElementById("previous-page");
 var saveFormButton = document.getElementById("save-form");
 var resumeButton = document.getElementById("generate-resume");
+var asteriskUnsavedForm = document.getElementById("form-unsaved");
 
 //Save modal dialog elements
 var saveModal = document.getElementById("save-modal");
@@ -280,7 +281,7 @@ var goToStartupPage = function goToStartupPage() {
                 break;
             }
         }
-        if(unsavedForm) {
+        if(unsavedForm && asteriskUnsavedForm.style.display === "inline") {
             var options = {
                 type: "question",
                 buttons: [ "Yes", "No" ],
@@ -364,6 +365,9 @@ var saveResumeTemplate = function saveResumeTemplate() {
             }
             saveModal.style.display = "none";
         });
+
+        //Hide the asteriskUnsavedForm symbol
+        asteriskUnsavedForm.style.display = "none";
     });
 };
 
@@ -433,6 +437,14 @@ var generateResume = function generateResume() {
 //This function sets up all the event handlers for the form and
 //  it is called only once
 var setupForm = function setupForm() {
+    //Listen for the change in the value of the input or textarea elements,
+    //  if changed, mark the form dirty i.e. unsaved
+    document.querySelector("#resume-form").addEventListener("input", function(event) {
+        if(event.target && (event.target.tagName === "INPUT" || event.target.tagName === "TEXTAREA")) {
+            asteriskUnsavedForm.style.display = "inline";
+        }
+    });
+
     //Click events to add templates on the resume page
     addEmployment();
     addEducation();
