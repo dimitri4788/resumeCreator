@@ -2,19 +2,18 @@
  * This module handles resume form page
  */
 
-const fs = require("fs");
+const path = require("path");
+const url = require("url");
+
 const {BrowserWindow} = require("electron").remote;
 const {dialog} = require("electron").remote;
-var Handlebars = require("handlebars");
+const Handlebars = require("handlebars");
+
+const utils = require("./utils");
 
 /*********************/
 /*      Private      */
 /*********************/
-//Get the path to user-data directory
-var getUserDataPath = function getUserDataPath() {
-    return require("electron").remote.getGlobal("sharedSettingObj").appUserDataPath;
-};
-
 /****** Get all elements *******/
 //Buttons: back, save, resume
 var previousPageButton = document.getElementById("previous-page");
@@ -66,7 +65,7 @@ var resumeFormTemplate;
 
 //This function initializes the resumeFormTemplate
 var initializeResumeTemplate = function initializeResumeTemplate() {
-    resumeFormTemplate = JSON.parse(fs.readFileSync(getUserDataPath()+"/resumeFileTemplate.json"));
+    resumeFormTemplate = JSON.parse(fs.readFileSync(utils.getUserDataPath() + "/resumeFileTemplate.json"));
 };
 
 //This function initializes the global variables that track employments, educations, projects and skills
@@ -275,7 +274,6 @@ var goToStartupPage = function goToStartupPage() {
         var unsavedForm = false;
         var allUserInputElements = document.querySelectorAll("#resume-form input, #resume-form textarea");
         var numOfInputs = allUserInputElements.length;
-        console.log("numOfInputs: " + numOfInputs);
         for(var i = 0; i < numOfInputs; i++) {
             if(allUserInputElements[i].value !== "") {
                 unsavedForm = true;
@@ -330,10 +328,8 @@ var saveResumeTemplate = function saveResumeTemplate() {
     });
 
     saveModalDoneButton.addEventListener("click", function() {
-        console.log("done button was clicked");
         //Get the filename entered
         var filename = saveModalInput.value;
-        console.log("filename: " + filename);
 
         //Validate that the filename should not be empty
         if(filename === "") {
@@ -356,10 +352,13 @@ var saveResumeTemplate = function saveResumeTemplate() {
             return;
         }
 
-        //Save the filled resumeFormTemplate in a file and stor it in user-data directory
-        var resumeTemplateFilePath = getUserDataPath() + "/" + filename;
+        //Save the filled resumeFormTemplate in a file and store it in userData/templates directory
+        if(!fs.existsSync(utils.templatesDirFullPath)) {
+            fs.mkdirSync(utils.templatesDirFullPath);
+        }
+        var resumeTemplateFilePath = utils.templatesDirFullPath + "/" + filename;
         fillResumeTemplate();
-        fs.writeFile(resumeTemplateFilePath, JSON.stringify(resumeFormTemplate, null, ' '), function(err) {
+        fs.writeFile(resumeTemplateFilePath, JSON.stringify(resumeFormTemplate, null, " "), function(err) {
             if(err) {
                 return console.error("Error while writing file \"" + resumeTemplateFilePath + "\": " + err);
             }
@@ -375,12 +374,12 @@ var generateResume = function generateResume() {
         fillResumeTemplate();
 
         //Read in the resume template and fill with data using handlebar (templating engine)
-        var source = fs.readFileSync(getUserDataPath()+"/myresume.html").toString();
+        var source = fs.readFileSync(utils.getUserDataPath() + "/myresume.html").toString();
         var template = Handlebars.compile(source);
         var result = template(resumeFormTemplate);
 
         //Write the generated html to a temporary file
-        fs.writeFileSync(getUserDataPath()+"/tempDoc.html", result);
+        fs.writeFileSync(utils.getUserDataPath() + "/tempDoc.html", result);
 
         //Create a new window in the background; this window is generated to create a pdf document
         let win = new BrowserWindow({
@@ -391,15 +390,15 @@ var generateResume = function generateResume() {
 
         //Load the temporary html in this background window
         win.loadURL(url.format({
-            pathname: path.join(getUserDataPath(), "tempDoc.html"),
+            pathname: path.join(utils.getUserDataPath(), "tempDoc.html"),
             protocol: "file:",
             slashes: true
         }));
 
         //Create a pdf file from this html document
-        win.webContents.on("did-finish-load", () => {
+        win.webContents.on("did-finish-load", function() {
             //Use default printing options
-            win.webContents.printToPDF({pageSize: "A4"}, (error, data) => {
+            win.webContents.printToPDF({pageSize: "A4"}, function(error, data) {
                 if(error) {
                     throw error;
                 }
@@ -412,7 +411,7 @@ var generateResume = function generateResume() {
                 };
                 dialog.showSaveDialog(options, function(filename) {
                     if(typeof filename !== "undefined") {
-                        fs.writeFile(filename, data, (error) => {
+                        fs.writeFile(filename, data, function(error) {
                             if(error) {
                                 throw error;
                             }
@@ -487,8 +486,78 @@ var initializeForm = function initializeForm() {
     initializeTrackingVariables();
 };
 
+//This function takes the form file selected by the user, and upload the data in the file
+//  to the resume form page
+var uploadFormDataIntoFormPage = function uploadFormDataIntoFormPage(filename) {
+    //Pre-fill the filename in the save form dialog
+    saveModalInput.value = filename;
+
+    //Get the data from the form file; this is the form saved by the user in the past
+    var formData = utils.getFormData(filename);
+
+    document.querySelector(".personal-info .fullname").value = formData.personalInfo.name;
+    document.querySelector(".personal-info .street-address").value = formData.personalInfo.address.addressline1;
+    document.querySelector(".personal-info .apartment-number").value = formData.personalInfo.address.addressline2;
+    document.querySelector(".personal-info .city").value = formData.personalInfo.address.city;
+    document.querySelector(".personal-info .state").value = formData.personalInfo.address.state;
+    document.querySelector(".personal-info .zip-code").value = formData.personalInfo.address.zipcode;
+    document.querySelector(".personal-info .phone").value = formData.personalInfo.phone;
+    document.querySelector(".personal-info .email").value = formData.personalInfo.email;
+    document.querySelector(".website-urls .github-url").value = formData.websites.github;
+    document.querySelector(".website-urls .linkedin-url").value = formData.websites.linkedin;
+    document.querySelector(".website-urls .twitter-url").value = formData.websites.twitter;
+    document.querySelector(".website-urls .personal-url").value = formData.websites.personalWebsite;
+    var numOfEmp = formData.employment.length,
+        numOfEdu = formData.education.length,
+        numOfProj = formData.technicalExperience.length,
+        numOfSkill = formData.skills.length,
+        i;
+    for(i = 1; i <= numOfEmp; i++) {
+        addEmploymentButton.click();
+        var empInfo = document.querySelector(".employment-info #employment-" + i);
+        empInfo.querySelector(".title").value = formData.employment[i-1].title;
+        empInfo.querySelector(".company-name").value = formData.employment[i-1].companyname;
+        empInfo.querySelector(".time-period").value = formData.employment[i-1].timeperiod;
+        var descp = "";
+        for(var j = 0; j < formData.employment[i-1].description.length; j++) {
+            descp += formData.employment[i-1].description[j] + "\n";
+        }
+        empInfo.querySelector("textarea").value = descp;
+    }
+    for(i = 1; i <= numOfEdu; i++) {
+        addEducationButton.click();
+        var eduInfo = document.querySelector(".education-info #education-" + i);
+        eduInfo.querySelector(".city").value = formData.education[i-1].city;
+        eduInfo.querySelector(".state").value = formData.education[i-1].state;
+        eduInfo.querySelector(".school-name").value = formData.education[i-1].schoolname;
+        eduInfo.querySelector(".time-period").value = formData.education[i-1].timeperiod;
+        eduInfo.querySelector(".degree").value = formData.education[i-1].degree;
+        eduInfo.querySelector(".field-of-study").value = formData.education[i-1].fieldofstudy;
+        eduInfo.querySelector(".month-of-graduation").value = formData.education[i-1].month;
+        eduInfo.querySelector(".year-of-graduation").value = formData.education[i-1].year;
+        eduInfo.querySelector(".grade").value = formData.education[i-1].grade;
+    }
+    for(i = 1; i <= numOfProj; i++) {
+        addProjectButton.click();
+        var projInfo = document.querySelector(".technical-experience-info #project-" + i);
+        projInfo.querySelector(".project-name").value = formData.technicalExperience[i-1].projectname;
+        projInfo.querySelector(".time-period").value = formData.technicalExperience[i-1].timeperiod;
+        var descp = "";
+        descp += formData.technicalExperience[i-1].description;
+        descp += "\n";
+        descp += formData.technicalExperience[i-1].technologies;
+        projInfo.querySelector("textarea").value = descp;
+    }
+    for(i = 1; i <= numOfSkill; i++) {
+        addSkillButton.click();
+        var skillInfo = document.querySelector(".languages-technologies-info #skill-" + i);
+        skillInfo.querySelector("textarea").value = formData.skills[i-1];
+    }
+};
+
 //Export the public functions
 module.exports = {
     initializeForm,
-    setupForm
+    setupForm,
+    uploadFormDataIntoFormPage
 };

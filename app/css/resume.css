@@ -84,7 +84,6 @@ li:before {
 #resume-form .label,
 div[class*="header"] i {
     display: inline-block;
-    /*width: 330px; XXX*/
     font-size: 18px;
     color: #AAA;
 }
@@ -282,18 +281,20 @@ div[class*="header"],
 }
 
 .modal-body {
-    padding: 16px 16px 0px 16px;
-    height: 47px;
+    padding: 10px 29px 0px 16px;
+    height: 76px;
     /*line-height: 50px;*/
 }
 
 .modal-body .modal-input #modal-filename-label {
     font-size: 20px;
     padding-right: 5px;
+    margin-bottom: 5px;
 }
 
 .modal-body .modal-input #modal-filename-input {
     width: 290px;
+    width: 100%;
 }
 
 .modal-footer {

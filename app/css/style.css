@@ -94,35 +94,9 @@ body {
     line-height: 18px;
 }
 
-/*
-        <div id="open-modal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 class="modal-title">Open Saved Template File</h2>
-                </div>
-                <div class="modal-body">
-                    <div class="modal-input">
-                        <div id="select-template-label">Select a template</div>
-                        <select id="select-template-list" size="5">
-                             <option value="volvo">Volvo</option>
-                               <option value="saab">Saab</option>
-                                 <option value="mercedes">Mercedes</option>
-                                   <option value="audi">Audi</option>
-                        </select>
-                        <div id="error-message"></div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="m-button" id="omodal-cancel-button">Cancel</button>
-                    <button type="button" class="m-button" id="omodal-delete-button">Delete</button>
-                    <button type="button" class="m-button" id="omodal-open-button">Open</button>
-                </div>
-            </div>
-        </div>
-                        */
-
 #open-modal .modal-body {
-    height: 135px;
+    padding: 10px 16px 0px 16px;
+    height: 153px;
 }
 
 #open-modal .modal-body .modal-input #select-template-label {
@@ -142,6 +116,13 @@ body {
     padding: 6px 12px;
     line-height: 1.42857143;
     color: #333;
+}
+
+#open-modal .modal-body #error-message {
+    font-family: "Slabo 27px", serif;
+    font-style: italic;
+    margin-top: 5px;
+    color: #AAA;
 }
 
 #open-modal .modal-footer button:nth-child(2) {
