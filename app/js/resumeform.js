@@ -159,6 +159,7 @@ var addEmployment = function addEmployment() {
 var removeEmployment = function removeEmployment() {
     document.querySelector(".employment-info").addEventListener("click", function(event) {
         if(event.target && event.target.className.indexOf("remove-") >= 0) {
+            idForEmployments--;
             var grandParent = event.target.parentElement.parentElement;
             var idOfGrandParent = grandParent.id;
             empArr = empArr.filter(function(item) { return item.id !== idOfGrandParent; });
@@ -186,6 +187,7 @@ var addEducation = function addEducation() {
 var removeEducation = function removeEducation() {
     document.querySelector(".education-info").addEventListener("click", function(event) {
         if(event.target && event.target.className.indexOf("remove-") >= 0) {
+            idForEducations--;
             var grandParent = event.target.parentElement.parentElement;
             var idOfGrandParent = grandParent.id;
             eduArr = eduArr.filter(function(item) { return item.id !== idOfGrandParent; });
@@ -213,6 +215,7 @@ var addProject = function addProject() {
 var removeProject = function removeProject() {
     document.querySelector(".technical-experience-info").addEventListener("click", function(event) {
         if(event.target && event.target.className.indexOf("remove-") >= 0) {
+            idForProjects--;
             var grandParent = event.target.parentElement.parentElement;
             var idOfGrandParent = grandParent.id;
             projArr = projArr.filter(function(item) { return item.id !== idOfGrandParent; });
@@ -240,6 +243,7 @@ var addSkill = function addSkill() {
 var removeSkill = function removeSkill() {
     document.querySelector(".languages-technologies-info").addEventListener("click", function(event) {
         if(event.target && event.target.className.indexOf("remove-") >= 0) {
+            idForSkills--;
             var grandParent = event.target.parentElement.parentElement;
             var idOfGrandParent = grandParent.id;
             skillArr = skillArr.filter(function(item) { return item.id !== idOfGrandParent; });
@@ -290,11 +294,13 @@ var goToStartupPage = function goToStartupPage() {
             };
             dialog.showMessageBox(options, function cback(response) {
                 if(response === 0) {
+                    asteriskUnsavedForm.style.display = "none";
                     goBack();
                 }
             });
         }
         else {
+            asteriskUnsavedForm.style.display = "none";
             goBack();
         }
     });
@@ -364,6 +370,9 @@ var saveResumeTemplate = function saveResumeTemplate() {
                 return console.error("Error while writing file \"" + resumeTemplateFilePath + "\": " + err);
             }
             saveModal.style.display = "none";
+
+            //Initialize the tracking variables
+            initializeTrackingVariables();
         });
 
         //Hide the asteriskUnsavedForm symbol
