@@ -31,6 +31,7 @@ Future Improvements / New Features / Issues
 #### New Features (Future Improvements)
 - Provide different resume templates that user can choose from; major code changes/additions needed
 - Provide user with the feature where they can add/remove different section(s)
+- Make the dynamically added sections draggable up and down so that user can set them at desired location
 
 #### Issues
 - No known issues yet

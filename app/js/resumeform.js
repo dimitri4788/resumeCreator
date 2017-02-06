@@ -371,8 +371,8 @@ var saveResumeTemplate = function saveResumeTemplate() {
             }
             saveModal.style.display = "none";
 
-            //Initialize the tracking variables
-            initializeTrackingVariables();
+            //Initialize the resume template
+            initializeResumeTemplate();
         });
 
         //Hide the asteriskUnsavedForm symbol
