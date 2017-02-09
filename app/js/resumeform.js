@@ -9,8 +9,11 @@ const {BrowserWindow} = require("electron").remote;
 const {dialog} = require("electron").remote;
 const Handlebars = require("handlebars");
 
+const filesystem = require("./filesystem");
 const utils = require("./utils");
 
+//TODO: remove reload code from menu.js
+//TODO: asteriskUnsavedForm should also be added whenever we add or remove a dynamically added field
 /*********************/
 /*      Private      */
 /*********************/
@@ -30,33 +33,29 @@ var saveModalDoneButton = document.getElementById("smodal-done-button");
 //Employment related elements
 var addEmploymentButton = document.querySelector(".add-employment");
 var removeEmploymentButton = document.querySelector(".remove-employment");
-var employmentInfoFieldset = document.querySelector(".employment-info fieldset");
+var employmentList = document.querySelector(".employment-list");
 var employmentTemplate = document.querySelector(".employment-template");
 
 //Education related elements
 var addEducationButton = document.querySelector(".add-education");
 var removeEducationButton = document.querySelector(".remove-education");
-var educationInfoFieldset = document.querySelector(".education-info fieldset");
+var educationList = document.querySelector(".education-list");
 var educationTemplate = document.querySelector(".education-template");
 
 //Projects related elements
 var addProjectButton = document.querySelector(".add-project");
 var removeProjectButton = document.querySelector(".remove-project");
-var projectFieldset = document.querySelector(".technical-experience-info fieldset");
+var projectList = document.querySelector(".project-list");
 var projectTemplate = document.querySelector(".project-template");
 
 //Skills related elements
 var addSkillButton = document.querySelector(".add-skill");
 var removeSkillButton = document.querySelector(".remove-skill");
-var skillFieldset = document.querySelector(".languages-technologies-info fieldset");
+var skillList = document.querySelector(".skill-list");
 var skillTemplate = document.querySelector(".skill-template");
 
-//Keep track of all added: employments, educations, projects and skills
-var empArr,
-    eduArr,
-    projArr,
-    skillArr,
-    idForEmployments,
+//Keep track of all added: employments, educations, projects and skills ids
+var idForEmployments,
     idForEducations,
     idForProjects,
     idForSkills;
@@ -64,21 +63,17 @@ var empArr,
 //Resume form template
 var resumeFormTemplate;
 
-//This function initializes the resumeFormTemplate
-var initializeResumeTemplate = function initializeResumeTemplate() {
-    resumeFormTemplate = JSON.parse(fs.readFileSync(utils.getUserDataPath() + "/resumeFileTemplate.json"));
-};
-
-//This function initializes the global variables that track employments, educations, projects and skills
+//This function initializes the global variables that track employments, educations, projects and skills ids
 var initializeTrackingVariables = function initializeTrackingVariables() {
-    empArr = [];
-    eduArr = [];
-    projArr = [];
-    skillArr = [];
     idForEmployments = 0;
     idForEducations = 0;
     idForProjects = 0;
     idForSkills = 0;
+};
+
+//This function initializes the resumeFormTemplate
+var initializeResumeTemplate = function initializeResumeTemplate() {
+    resumeFormTemplate = JSON.parse(fs.readFileSync(utils.getUserDataPath() + "/resumeFileTemplate.json"));
 };
 
 //This function fills resumeFormTemplate with the data
@@ -97,9 +92,16 @@ var fillResumeTemplate = function fillResumeTemplate() {
     resumeFormTemplate.websites.linkedin = document.querySelector(".website-urls .linkedin-url").value;
     resumeFormTemplate.websites.twitter = document.querySelector(".website-urls .twitter-url").value;
     resumeFormTemplate.websites.personalWebsite = document.querySelector(".website-urls .personal-url").value;
+
+    //Get dynamically added data
+    let empArr = employmentList.querySelectorAll("li");
+    let eduArr = educationList.querySelectorAll("li");
+    let projArr = projectList.querySelectorAll("li");
+    let skillArr = skillList.querySelectorAll("li");
+
     empArr.forEach(function(value, index) {
-        var empInfo = document.querySelector(".employment-info #" + value.id);
-        var newEmp = {};
+        let empInfo = document.querySelector(".employment-info #" + value.id);
+        let newEmp = {};
         newEmp.title = empInfo.querySelector(".title").value;
         newEmp.companyname = empInfo.querySelector(".company-name").value;
         newEmp.timeperiod = empInfo.querySelector(".time-period").value;
@@ -108,8 +110,8 @@ var fillResumeTemplate = function fillResumeTemplate() {
         resumeFormTemplate.employment.push(newEmp);
     });
     eduArr.forEach(function(value, index) {
-        var eduInfo = document.querySelector(".education-info #" + value.id);
-        var newEdu = {};
+        let eduInfo = document.querySelector(".education-info #" + value.id);
+        let newEdu = {};
         newEdu.city = eduInfo.querySelector(".city").value;
         newEdu.state = eduInfo.querySelector(".state").value;
         newEdu.schoolname = eduInfo.querySelector(".school-name").value;
@@ -122,18 +124,18 @@ var fillResumeTemplate = function fillResumeTemplate() {
         resumeFormTemplate.education.push(newEdu);
     });
     projArr.forEach(function(value, index) {
-        var projInfo = document.querySelector(".technical-experience-info #" + value.id);
-        var newProj = {};
+        let projInfo = document.querySelector(".technical-experience-info #" + value.id);
+        let newProj = {};
         newProj.projectname = projInfo.querySelector(".project-name").value;
         newProj.timeperiod = projInfo.querySelector(".time-period").value;
-        var descp = projInfo.querySelector("textarea").value.split("\n");
+        let descp = projInfo.querySelector("textarea").value.split("\n");
         newProj.description = descp[0];
         newProj.technologies = descp[1];
         resumeFormTemplate.technicalExperience.push(newProj);
     });
     skillArr.forEach(function(value, index) {
-        var skillInfo = document.querySelector(".languages-technologies-info #" + value.id);
-        var skillText = skillInfo.querySelector("textarea").value;
+        let skillInfo = document.querySelector(".languages-technologies-info #" + value.id);
+        let skillText = skillInfo.querySelector("textarea").value;
         if(skillText) {
             resumeFormTemplate.skills.push(skillText);
         }
@@ -144,14 +146,10 @@ var fillResumeTemplate = function fillResumeTemplate() {
 var addEmployment = function addEmployment() {
     addEmploymentButton.addEventListener("click", function() {
         idForEmployments++;
-        var clonedEmploymentTemplate = employmentTemplate.cloneNode(true);
+        let clonedEmploymentTemplate = employmentTemplate.cloneNode(true);
         clonedEmploymentTemplate.classList.remove("employment-template");
         clonedEmploymentTemplate.id = "employment-" + idForEmployments;
-        var newObj = {};
-        newObj.id = "employment-" + idForEmployments;
-        newObj.template = clonedEmploymentTemplate;
-        empArr.push(newObj);
-        employmentInfoFieldset.appendChild(clonedEmploymentTemplate);
+        employmentList.appendChild(clonedEmploymentTemplate);
     });
 };
 
@@ -159,11 +157,9 @@ var addEmployment = function addEmployment() {
 var removeEmployment = function removeEmployment() {
     document.querySelector(".employment-info").addEventListener("click", function(event) {
         if(event.target && event.target.className.indexOf("remove-") >= 0) {
-            idForEmployments--;
-            var grandParent = event.target.parentElement.parentElement;
-            var idOfGrandParent = grandParent.id;
-            empArr = empArr.filter(function(item) { return item.id !== idOfGrandParent; });
-            employmentInfoFieldset.removeChild(grandParent);
+            let liToBeRemoved = event.target.closest("li");
+            let idOfLiToBeRemoved = liToBeRemoved.id;
+            employmentList.removeChild(liToBeRemoved);
         }
     });
 };
@@ -172,14 +168,10 @@ var removeEmployment = function removeEmployment() {
 var addEducation = function addEducation() {
     addEducationButton.addEventListener("click", function() {
         idForEducations++;
-        var clonedEducationTemplate = educationTemplate.cloneNode(true);
+        let clonedEducationTemplate = educationTemplate.cloneNode(true);
         clonedEducationTemplate.classList.remove("education-template");
         clonedEducationTemplate.id = "education-" + idForEducations;
-        var newObj = {};
-        newObj.id = "education-" + idForEducations;
-        newObj.template = clonedEducationTemplate;
-        eduArr.push(newObj);
-        educationInfoFieldset.appendChild(clonedEducationTemplate);
+        educationList.appendChild(clonedEducationTemplate);
     });
 };
 
@@ -187,11 +179,9 @@ var addEducation = function addEducation() {
 var removeEducation = function removeEducation() {
     document.querySelector(".education-info").addEventListener("click", function(event) {
         if(event.target && event.target.className.indexOf("remove-") >= 0) {
-            idForEducations--;
-            var grandParent = event.target.parentElement.parentElement;
-            var idOfGrandParent = grandParent.id;
-            eduArr = eduArr.filter(function(item) { return item.id !== idOfGrandParent; });
-            educationInfoFieldset.removeChild(grandParent);
+            let liToBeRemoved = event.target.closest("li");
+            let idOfLiToBeRemoved = liToBeRemoved.id;
+            educationList.removeChild(liToBeRemoved);
         }
     });
 };
@@ -200,14 +190,10 @@ var removeEducation = function removeEducation() {
 var addProject = function addProject() {
     addProjectButton.addEventListener("click", function() {
         idForProjects++;
-        var clonedProjectTemplate = projectTemplate.cloneNode(true);
+        let clonedProjectTemplate = projectTemplate.cloneNode(true);
         clonedProjectTemplate.classList.remove("project-template");
         clonedProjectTemplate.id = "project-" + idForProjects;
-        var newObj = {};
-        newObj.id = "project-" + idForProjects;
-        newObj.template = clonedProjectTemplate;
-        projArr.push(newObj);
-        projectFieldset.appendChild(clonedProjectTemplate);
+        projectList.appendChild(clonedProjectTemplate);
     });
 };
 
@@ -215,11 +201,9 @@ var addProject = function addProject() {
 var removeProject = function removeProject() {
     document.querySelector(".technical-experience-info").addEventListener("click", function(event) {
         if(event.target && event.target.className.indexOf("remove-") >= 0) {
-            idForProjects--;
-            var grandParent = event.target.parentElement.parentElement;
-            var idOfGrandParent = grandParent.id;
-            projArr = projArr.filter(function(item) { return item.id !== idOfGrandParent; });
-            projectFieldset.removeChild(grandParent);
+            let liToBeRemoved = event.target.closest("li");
+            let idOfLiToBeRemoved = liToBeRemoved.id;
+            projectList.removeChild(liToBeRemoved);
         }
     });
 };
@@ -228,14 +212,10 @@ var removeProject = function removeProject() {
 var addSkill = function addSkill() {
     addSkillButton.addEventListener("click", function() {
         idForSkills++;
-        var clonedSkillTemplate = skillTemplate.cloneNode(true);
+        let clonedSkillTemplate = skillTemplate.cloneNode(true);
         clonedSkillTemplate.classList.remove("skill-template");
         clonedSkillTemplate.id = "skill-" + idForSkills;
-        var newObj = {};
-        newObj.id = "skill-" + idForSkills;
-        newObj.template = clonedSkillTemplate;
-        skillArr.push(newObj);
-        skillFieldset.appendChild(clonedSkillTemplate);
+        skillList.appendChild(clonedSkillTemplate);
     });
 };
 
@@ -243,13 +223,48 @@ var addSkill = function addSkill() {
 var removeSkill = function removeSkill() {
     document.querySelector(".languages-technologies-info").addEventListener("click", function(event) {
         if(event.target && event.target.className.indexOf("remove-") >= 0) {
-            idForSkills--;
-            var grandParent = event.target.parentElement.parentElement;
-            var idOfGrandParent = grandParent.id;
-            skillArr = skillArr.filter(function(item) { return item.id !== idOfGrandParent; });
-            skillFieldset.removeChild(grandParent);
+            let liToBeRemoved = event.target.closest("li");
+            let idOfLiToBeRemoved = liToBeRemoved.id;
+            skillList.removeChild(liToBeRemoved);
         }
     });
+};
+
+//This function moves element up
+var moveUp = function moveUp() {
+    let selectors = ".employment-info, .education-info, .technical-experience-info, .languages-technologies-info";
+    let allSections = document.querySelectorAll(selectors);
+    for(let i = 0; i < allSections.length; i++) {
+        allSections[i].addEventListener("click", function(event) {
+            if(event.target && event.target.className.indexOf("move-up") >= 0) {
+                let closestUL = event.target.closest("ul");
+                let movingLI = event.target.closest("li");
+                let previousLI = movingLI.previousSibling;
+                if(typeof(previousLI) !== "undefined" && previousLI !== null) {
+                    closestUL.insertBefore(movingLI, previousLI);
+                }
+            }
+        });
+    }
+};
+
+//This funtion moves element down
+var moveDown = function moveDown() {
+    let selectors = ".employment-info, .education-info, .technical-experience-info, .languages-technologies-info";
+    let allSections = document.querySelectorAll(selectors);
+    for(let i = 0; i < allSections.length; i++) {
+        allSections[i].addEventListener("click", function(event) {
+            if(event.target && event.target.className.indexOf("move-down") >= 0) {
+                let closestUL = event.target.closest("ul");
+                let movingLI = event.target.closest("li");
+                let nextLI = movingLI.nextSibling;
+                if(typeof(nextLI) !== "undefined" && nextLI !== null) {
+                    //Since JavaScript does not have its native insertAfter method, so I wrote my custom
+                    utils.insertAfter(movingLI, nextLI);
+                }
+            }
+        });
+    }
 };
 
 var goBack = function goBack() {
@@ -260,9 +275,9 @@ var goBack = function goBack() {
     initializeTrackingVariables();
 
     //Empty all the input and textarea fields
-    var allUserInputElements = document.querySelectorAll("#resume-form input, #resume-form textarea");
-    var numOfInputs = allUserInputElements.length;
-    for(var i = 0; i < numOfInputs; i++) {
+    let allUserInputElements = document.querySelectorAll("#resume-form input, #resume-form textarea");
+    let numOfInputs = allUserInputElements.length;
+    for(let i = 0; i < numOfInputs; i++) {
         allUserInputElements[i].value = "";
     }
 
@@ -277,16 +292,16 @@ var goToStartupPage = function goToStartupPage() {
         //Show dialog message for confirmation if any of the input fields
         //  are dirty, i.e. there are unsaved changes in the form
         var unsavedForm = false;
-        var allUserInputElements = document.querySelectorAll("#resume-form input, #resume-form textarea");
-        var numOfInputs = allUserInputElements.length;
-        for(var i = 0; i < numOfInputs; i++) {
+        let allUserInputElements = document.querySelectorAll("#resume-form input, #resume-form textarea");
+        let numOfInputs = allUserInputElements.length;
+        for(let i = 0; i < numOfInputs; i++) {
             if(allUserInputElements[i].value !== "") {
                 unsavedForm = true;
                 break;
             }
         }
         if(unsavedForm && asteriskUnsavedForm.style.display === "inline") {
-            var options = {
+            let options = {
                 type: "question",
                 buttons: [ "Yes", "No" ],
                 title: "Confirm unsaved form deletion",
@@ -387,9 +402,9 @@ var generateResume = function generateResume() {
         fillResumeTemplate();
 
         //Read in the resume template and fill with data using handlebar (templating engine)
-        var source = fs.readFileSync(utils.getUserDataPath() + "/myresume.html").toString();
-        var template = Handlebars.compile(source);
-        var result = template(resumeFormTemplate);
+        let source = fs.readFileSync(utils.getUserDataPath() + "/myresume.html").toString();
+        let template = Handlebars.compile(source);
+        let result = template(resumeFormTemplate);
 
         //Write the generated html to a temporary file
         fs.writeFileSync(utils.getUserDataPath() + "/tempDoc.html", result);
@@ -416,7 +431,7 @@ var generateResume = function generateResume() {
                     throw error;
                 }
                 //Ask user for filename and location and save the resume file
-                var options = {
+                let options = {
                     title: "Save Resume",
                     filters: [
                         {name: "PDFs", extensions: ["pdf"]}
@@ -466,6 +481,10 @@ var setupForm = function setupForm() {
     removeProject();
     removeSkill();
 
+    //Move dynamically elements up and down
+    moveUp();
+    moveDown();
+
     //When back button gets clicked go to startup page
     goToStartupPage();
 
@@ -483,10 +502,10 @@ var setupForm = function setupForm() {
 //  and initializing resume-form template and tracking variables
 var initializeForm = function initializeForm() {
     //Remove all the dynamically added elements
-    var dynamicEmps = employmentInfoFieldset.getElementsByTagName("div");
-    var dynamicEdus = educationInfoFieldset.getElementsByTagName("div");
-    var dynamicProjs = projectFieldset.getElementsByTagName("div");
-    var dynamicSkills = skillFieldset.getElementsByTagName("div");
+    let dynamicEmps = employmentList.getElementsByTagName("li");
+    let dynamicEdus = educationList.getElementsByTagName("li");
+    let dynamicProjs = projectList.getElementsByTagName("li");
+    let dynamicSkills = skillList.getElementsByTagName("li");
     while(dynamicEmps[0]) {
         dynamicEmps[0].parentNode.removeChild(dynamicEmps[0]);
     }
@@ -535,11 +554,11 @@ var uploadFormDataIntoFormPage = function uploadFormDataIntoFormPage(filename) {
         i;
     for(i = 1; i <= numOfEmp; i++) {
         addEmploymentButton.click();
-        var empInfo = document.querySelector(".employment-info #employment-" + i);
+        let empInfo = document.querySelector(".employment-info #employment-" + i);
         empInfo.querySelector(".title").value = formData.employment[i-1].title;
         empInfo.querySelector(".company-name").value = formData.employment[i-1].companyname;
         empInfo.querySelector(".time-period").value = formData.employment[i-1].timeperiod;
-        var descp = "";
+        let descp = "";
         for(var j = 0; j < formData.employment[i-1].description.length; j++) {
             descp += formData.employment[i-1].description[j] + "\n";
         }
@@ -547,7 +566,7 @@ var uploadFormDataIntoFormPage = function uploadFormDataIntoFormPage(filename) {
     }
     for(i = 1; i <= numOfEdu; i++) {
         addEducationButton.click();
-        var eduInfo = document.querySelector(".education-info #education-" + i);
+        let eduInfo = document.querySelector(".education-info #education-" + i);
         eduInfo.querySelector(".city").value = formData.education[i-1].city;
         eduInfo.querySelector(".state").value = formData.education[i-1].state;
         eduInfo.querySelector(".school-name").value = formData.education[i-1].schoolname;
@@ -560,10 +579,10 @@ var uploadFormDataIntoFormPage = function uploadFormDataIntoFormPage(filename) {
     }
     for(i = 1; i <= numOfProj; i++) {
         addProjectButton.click();
-        var projInfo = document.querySelector(".technical-experience-info #project-" + i);
+        let projInfo = document.querySelector(".technical-experience-info #project-" + i);
         projInfo.querySelector(".project-name").value = formData.technicalExperience[i-1].projectname;
         projInfo.querySelector(".time-period").value = formData.technicalExperience[i-1].timeperiod;
-        var descp = "";
+        let descp = "";
         descp += formData.technicalExperience[i-1].description;
         descp += "\n";
         descp += formData.technicalExperience[i-1].technologies;
@@ -571,7 +590,7 @@ var uploadFormDataIntoFormPage = function uploadFormDataIntoFormPage(filename) {
     }
     for(i = 1; i <= numOfSkill; i++) {
         addSkillButton.click();
-        var skillInfo = document.querySelector(".languages-technologies-info #skill-" + i);
+        let skillInfo = document.querySelector(".languages-technologies-info #skill-" + i);
         skillInfo.querySelector("textarea").value = formData.skills[i-1];
     }
 };
