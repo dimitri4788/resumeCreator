@@ -61,7 +61,7 @@ var writeSavedFormFile = function(resumeTemplateFilePath, resumeFormTemplate) {
 
 //This function returns the resume template that gets filled with the templating engine (handlebar)
 var getResumeTemplate = function getResumeTemplate() {
-    return fs.readFileSync(getUserDataPath() + "/myresume.html").toString();
+    return fs.readFileSync(getUserDataPath() + "/myresumeMain.html").toString();
 };
 
 //This function writes the html to a temporary file

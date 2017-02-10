@@ -363,6 +363,7 @@ var saveResumeTemplate = function saveResumeTemplate() {
         //Check that the filename is not any of these
         if(filename === "Cookies-journal" ||
            filename === "myresume.html" ||
+           filename === "myresumeMain.html" ||
            filename === "styling.css" ||
            filename === "Cookies" ||
            filename === "Preferences" ||
