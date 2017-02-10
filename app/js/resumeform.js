@@ -73,7 +73,7 @@ var initializeTrackingVariables = function initializeTrackingVariables() {
 
 //This function initializes the resumeFormTemplate
 var initializeResumeTemplate = function initializeResumeTemplate() {
-    resumeFormTemplate = JSON.parse(fs.readFileSync(utils.getUserDataPath() + "/resumeFileTemplate.json"));
+    resumeFormTemplate = filesystem.getResumeFormTemplate();
 };
 
 //This function fills resumeFormTemplate with the data
@@ -375,20 +375,16 @@ var saveResumeTemplate = function saveResumeTemplate() {
         }
 
         //Save the filled resumeFormTemplate in a file and store it in userData/templates directory
-        if(!fs.existsSync(utils.templatesDirFullPath)) {
-            fs.mkdirSync(utils.templatesDirFullPath);
-        }
-        var resumeTemplateFilePath = utils.templatesDirFullPath + "/" + filename;
+        filesystem.createTemplateDirectory();
+        var resumeTemplateFilePath = filesystem.getTemplateDirFullPath() + "/" + filename;
         fillResumeTemplate();
-        fs.writeFile(resumeTemplateFilePath, JSON.stringify(resumeFormTemplate, null, " "), function(err) {
-            if(err) {
-                return console.error("Error while writing file \"" + resumeTemplateFilePath + "\": " + err);
-            }
-            saveModal.style.display = "none";
+        filesystem.writeSavedFormFile(resumeTemplateFilePath, resumeFormTemplate);
 
-            //Initialize the resume template
-            initializeResumeTemplate();
-        });
+        //Hide the save modal
+        saveModal.style.display = "none";
+
+        //Initialize the resume template
+        initializeResumeTemplate();
 
         //Hide the asteriskUnsavedForm symbol
         asteriskUnsavedForm.style.display = "none";
@@ -402,12 +398,12 @@ var generateResume = function generateResume() {
         fillResumeTemplate();
 
         //Read in the resume template and fill with data using handlebar (templating engine)
-        let source = fs.readFileSync(utils.getUserDataPath() + "/myresume.html").toString();
+        let source = filesystem.getResumeTemplate();
         let template = Handlebars.compile(source);
         let result = template(resumeFormTemplate);
 
         //Write the generated html to a temporary file
-        fs.writeFileSync(utils.getUserDataPath() + "/tempDoc.html", result);
+        filesystem.writeHTMLtoTempFile(result);
 
         //Create a new window in the background; this window is generated to create a pdf document
         let win = new BrowserWindow({
@@ -418,7 +414,7 @@ var generateResume = function generateResume() {
 
         //Load the temporary html in this background window
         win.loadURL(url.format({
-            pathname: path.join(utils.getUserDataPath(), "tempDoc.html"),
+            pathname: path.join(filesystem.getUserDataPath(), "tempDoc.html"),
             protocol: "file:",
             slashes: true
         }));
@@ -439,9 +435,9 @@ var generateResume = function generateResume() {
                 };
                 dialog.showSaveDialog(options, function(filename) {
                     if(typeof filename !== "undefined") {
-                        fs.writeFile(filename, data, function(error) {
-                            if(error) {
-                                throw error;
+                        filesystem.writeResumeFile(filename, data, function(errMessage) {
+                            if(errMessage) {
+                                throw errMessage;
                             }
                             console.log("Wrote PDF file successfully.");
 
@@ -533,7 +529,7 @@ var uploadFormDataIntoFormPage = function uploadFormDataIntoFormPage(filename) {
     saveModalInput.value = filename;
 
     //Get the data from the form file; this is the form saved by the user in the past
-    var formData = utils.getFormData(filename);
+    var formData = filesystem.getFormData(filename);
 
     document.querySelector(".personal-info .fullname").value = formData.personalInfo.name;
     document.querySelector(".personal-info .street-address").value = formData.personalInfo.address.addressline1;
