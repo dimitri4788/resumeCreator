@@ -1,36 +1,37 @@
 {
-    "name": "resumecreator",
-    "productName": "ResumeCreator",
-    "version": "1.0.0",
-    "description": "An application that lets you create your resume with ease; no headaches of formatting.",
-    "author": "Deep Aggarwal <deep.uiuc@gmail.com>",
-    "engines": {
-        "node": "4.6.0",
-        "npm": "2.15.9"
-    },
-    "main": "app",
-    "scripts": {
-        "package-osx": "electron-packager . --out=dist --overwrite --platform=darwin --arch=x64 --icon=resources/app-icons/stable/resumecreator.icns && cp -r dist/ResumeCreator-darwin-x64/ResumeCreator.app /Applications",
-        "start": "electron app"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/deep4788/resumeCreator"
-    },
-    "keywords": [
-        "electron",
-        "node.js",
-        "resume",
-        "portfolio",
-        "creator",
-        "generator",
-        "handlebars"
-    ],
-    "dependencies": {
-        "electron": "^1.4.1",
-        "electron-packager": "8.3.0",
-        "handlebars": "4.0.6",
-        "jsonfile": "2.4.0"
-    },
-    "license": "MIT"
+  "name": "resumecreator",
+  "productName": "ResumeCreator",
+  "version": "1.0.0",
+  "description": "An application that lets you create your resume with ease; no headaches of formatting.",
+  "author": "Deep Aggarwal <deep.uiuc@gmail.com>",
+  "engines": {
+    "node": "4.6.0",
+    "npm": "2.15.9"
+  },
+  "main": "app",
+  "scripts": {
+    "package-osx": "electron-packager . --out=dist --overwrite --platform=darwin --arch=x64 --icon=resources/app-icons/stable/resumecreator.icns && cp -r dist/ResumeCreator-darwin-x64/ResumeCreator.app /Applications",
+    "start": "electron app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/deep4788/resumeCreator"
+  },
+  "keywords": [
+    "electron",
+    "node.js",
+    "resume",
+    "portfolio",
+    "creator",
+    "generator",
+    "handlebars"
+  ],
+  "dependencies": {
+    "electron": "^1.4.1",
+    "electron-packager": "8.3.0",
+    "fs.extra": "1.3.2",
+    "handlebars": "4.0.6",
+    "jsonfile": "2.4.0"
+  },
+  "license": "MIT"
 }

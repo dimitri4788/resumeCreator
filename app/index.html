@@ -101,78 +101,105 @@
                 </fieldset>
             </div>
 
-            <!-- TODO Change the *-template section to a <ul> element for all the following sections -->
             <div class="employment-info section">
                 <fieldset>
                     <legend class="employment-info-legend">EMPLOYMENT <i class="fa fa-plus-circle add-employment" aria-hidden="true"></i></legend>
-                    <div class="employment employment-template">
-                        <div class="employment-header">
-                            <div class="label">EMPLOYMENT</div>
-                            <i class="fa fa-minus-circle remove-employment" aria-hidden="true"></i>
-                        </div>
-                        <div class="employment-metadata">
-                            <input type="text" placeholder="title" name="title" class="title">
-                            <input type="text" placeholder="company name" name="company-name" class="company-name">
-                            <input type="text" placeholder="time period" name="time-period" class="time-period">
-                        </div>
-                        <div class="employment-description">
-                            <textarea class="employment-desc-text" placeholder="write description in short sentences, one per line ..."></textarea>
-                        </div>
-                    </div>
+                    <ul class="employment-list">
+                        <li class="employment-template">
+                            <div class="employment">
+                                <div class="employment-header">
+                                    <div class="label">
+                                        EMPLOYMENT&nbsp&nbsp
+                                        <i class="fa fa-arrow-up move-up" aria-hidden="true"></i>
+                                        <i class="fa fa-arrow-down move-down" aria-hidden="true"></i>
+                                    </div>
+                                    <i class="fa fa-minus-circle remove-employment" aria-hidden="true"></i>
+                                </div>
+                                <div class="employment-metadata">
+                                    <input type="text" placeholder="title" name="title" class="title">
+                                    <input type="text" placeholder="company name" name="company-name" class="company-name">
+                                    <input type="text" placeholder="time period" name="time-period" class="time-period">
+                                </div>
+                                <div class="employment-description">
+                                    <textarea class="employment-desc-text" placeholder="write description in short sentences, one per line ..."></textarea>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </fieldset>
             </div>
 
             <div class="education-info section">
                 <fieldset>
                     <legend class="education-info-legend">EDUCATION <i class="fa fa-plus-circle add-education" aria-hidden="true"></i></legend>
-                    <div class="education education-template">
-                        <div class="education-header">
-                            <div class="label">EDUCATION</div>
-                            <i class="fa fa-minus-circle remove-education" aria-hidden="true"></i>
-                        </div>
-                        <div class="education-metadata">
-                            <input type="text" placeholder="city" name="city" class="city">
-                            <input type="text" placeholder="state" name="state" class="state">
-                            <input type="text" placeholder="school name" name="school-name" class="school-name">
-                            <input type="text" placeholder="time period" name="time-period" class="time-period">
-                            <input type="text" placeholder="month of graduation" name="month-of-graduation" class="month-of-graduation">
-                            <input type="text" placeholder="year of graduation" name="year-of-graduation" class="year-of-graduation">
-                            <input type="text" placeholder="degree" name="degree" class="degree">
-                            <input type="text" placeholder="field of study" name="fieldofstudy" class="field-of-study">
-                            <input type="text" placeholder="grade (GPA: X.YZ/4.00)" name="grade" class="grade">
-                        </div>
-                    </div>
+                    <ul class="education-list">
+                        <li class="education-template">
+                            <div class="education">
+                                <div class="education-header">
+                                    <div class="label">
+                                        EDUCATION&nbsp&nbsp
+                                        <i class="fa fa-arrow-up move-up" aria-hidden="true"></i>
+                                        <i class="fa fa-arrow-down move-down" aria-hidden="true"></i>
+                                    </div>
+                                    <i class="fa fa-minus-circle remove-education" aria-hidden="true"></i>
+                                </div>
+                                <div class="education-metadata">
+                                    <input type="text" placeholder="city" name="city" class="city">
+                                    <input type="text" placeholder="state" name="state" class="state">
+                                    <input type="text" placeholder="school name" name="school-name" class="school-name">
+                                    <input type="text" placeholder="time period" name="time-period" class="time-period">
+                                    <input type="text" placeholder="month of graduation" name="month-of-graduation" class="month-of-graduation">
+                                    <input type="text" placeholder="year of graduation" name="year-of-graduation" class="year-of-graduation">
+                                    <input type="text" placeholder="degree" name="degree" class="degree">
+                                    <input type="text" placeholder="field of study" name="fieldofstudy" class="field-of-study">
+                                    <input type="text" placeholder="grade (GPA: X.YZ/4.00)" name="grade" class="grade">
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </fieldset>
             </div>
 
             <div class="technical-experience-info section">
                 <fieldset>
                     <legend class="technical-experience-info-legend">TECHNICAL EXPERIENCE <i class="fa fa-plus-circle add-project" aria-hidden="true"></i></legend>
-                    <div class="project project-template">
-                        <div class="project-header">
-                            <div class="label">PROJECT</div>
-                            <i class="fa fa-minus-circle remove-project" aria-hidden="true"></i>
-                        </div>
-                        <div class="project-metadata">
-                            <input type="text" placeholder="project name" name="projectname" class="project-name">
-                            <input type="text" placeholder="time period" name="time-period" class="time-period">
-                        </div>
-                        <div class="project-description">
-                            <textarea class="project-desc-text" placeholder="write a one line description and in the next line write technologies used ..."></textarea>
-                        </div>
-                    </div>
+                    <ul class="project-list">
+                        <li class="project-template">
+                            <div class="project">
+                                <div class="project-header">
+                                    <div class="label">
+                                        PROJECT&nbsp&nbsp
+                                        <i class="fa fa-arrow-up move-up" aria-hidden="true"></i>
+                                        <i class="fa fa-arrow-down move-down" aria-hidden="true"></i>
+                                    </div>
+                                    <i class="fa fa-minus-circle remove-project" aria-hidden="true"></i>
+                                </div>
+                                <div class="project-metadata">
+                                    <input type="text" placeholder="project name" name="projectname" class="project-name">
+                                    <input type="text" placeholder="time period" name="time-period" class="time-period">
+                                </div>
+                                <div class="project-description">
+                                    <textarea class="project-desc-text" placeholder="write a one line description and in the next line write technologies used ..."></textarea>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </fieldset>
             </div>
 
             <div class="languages-technologies-info section">
                 <fieldset>
                     <legend class="languages-technologies-info-legend">LANGUAGES AND TECHNOLOGIES <i class="fa fa-plus-circle add-skill" aria-hidden="true"></i></legend>
-                    <div class="skill skill-template">
-                        <div class="skill-metadata">
-                            <i class="fa fa-minus-circle remove-skill" aria-hidden="true"></i>
-                            <textarea class="skill-desc-text" placeholder="write your skills, group similar ones together ..."></textarea>
-                        </div>
-                    </div>
+                    <ul class="skill-list">
+                        <li class="skill-template">
+                            <div class="skill">
+                                <div class="skill-metadata">
+                                    <i class="fa fa-minus-circle remove-skill" aria-hidden="true"></i>
+                                    <textarea class="skill-desc-text" placeholder="write your skills, group similar ones together ..."></textarea>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </fieldset>
             </div>
         </div>

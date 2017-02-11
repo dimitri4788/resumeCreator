@@ -14,19 +14,16 @@
     display: block;
 }
 
-/*NOTE: Keep it here, just in case I will use it
 ul {
     list-style: none;
-    list-style-type: square;
-    padding-left: 10px;
+    padding-left: 0;
 }
-*/
+
+li {
+    padding: 0;
+}
 
 /* NOTE: Keep this code here, I may use it to customize the bullet symbol
-li {
-    padding-left: 10px;
-}
-
 li:before {
     content: "• ";
     color: #AAA;

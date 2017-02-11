@@ -1,5 +1,6 @@
 //Load core modules
 const fs = require("fs");
+var fsExtra = require("fs.extra");
 const path = require("path");
 const url = require("url");
 
@@ -15,7 +16,7 @@ const jsonfile = require("jsonfile");
 var menu = require("./js/menu").menu;
 
 //Initial resume template data
-var initialResumeTemplateData = require("../resumeFileTemplate.json");
+var initialResumeTemplateData = require("../etc/resumeFileTemplate.json");
 
 //Save userData directory path as global so we can access from renderer process
 var appUserDataPath = app.getPath("userData");
@@ -32,11 +33,29 @@ function createMainWindow() {
     //If resumeFileTemplate.json does not exist in the userData directory, create it with initialResumeTemplateData
     fs.exists(resumeFilePath, function(exists) {
         if(!exists) {
-            fs.writeFile(resumeFilePath, JSON.stringify(initialResumeTemplateData, null, ' '), function(err) {
+            fs.writeFile(resumeFilePath, JSON.stringify(initialResumeTemplateData, null, " "), function(err) {
                 if(err) {
                     return console.error("Error while writing file \"" + resumeFilePath + "\": " + err);
                 }
             });
+        }
+    });
+
+    //If myresumeMain.html and styling.css do not exist in the userData directory, copy them there from ../etc directory
+    var myresumeMainFileSource = "./etc/myresumeMain.html";
+    var myresumeStylingFileSource = "./etc/styling.css";
+    var myresumeMainFileDest = appUserDataPath + "/myresumeMain.html";
+    var myresumeStylingFileDest = appUserDataPath + "/styling.css";
+    fsExtra.copy(myresumeMainFileSource, myresumeMainFileDest , { replace: false }, function(err) {
+        if(err) {
+            //i.e. file already exists or can't write to specified directory
+            return console.error("Error while writing file \"" + myresumeMainFileSource + "\": " + err);
+        }
+    });
+    fsExtra.copy(myresumeStylingFileSource, myresumeStylingFileDest, { replace: false }, function(err) {
+        if(err) {
+            //i.e. file already exists or can't write to specified directory
+            return console.error("Error while writing file \"" + myresumeStylingFileSource + "\": " + err);
         }
     });
 

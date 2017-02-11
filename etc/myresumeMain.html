@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Resume</title>
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <link rel="stylesheet" href="styling.css">
+    </head>
+    <body>
+        <div class="document">
+            <div class="container">
+                <div id="heading">
+                    {{#if personalInfo.address.city}}
+                    <div class="home-address">
+                        <p>{{personalInfo.address.addressline1}}, {{personalInfo.address.addressline2}}</p>
+                        <p>{{personalInfo.address.city}}, {{personalInfo.address.state}} {{personalInfo.address.zipcode}}</p>
+                    </div>
+                    {{/if}}
+                    {{#if personalInfo.name}}
+                    <div class="name-container">
+                        <div class="name">{{personalInfo.name}}</div>
+                    </div>
+                    {{/if}}
+                    {{#if personalInfo.phone}}
+                    <div class="phone-email">
+                        <p>{{personalInfo.phone}}</p>
+                        <p>{{personalInfo.email}}</p>
+                    </div>
+                    {{/if}}
+                </div>
+
+                <div id="websites">
+                    {{#if websites.github}}
+                    <div class="github">
+                        <a href="{{websites.github}}" target="_blank">GitHub</a>
+                    </div>
+                    {{/if}}
+                    {{#if websites.linkedin}}
+                    <div class="linkedin">
+                        <a href="{{websites.linkedin}}" target="_blank">LinkedIn</a>
+                    </div>
+                    {{/if}}
+                    {{#if websites.twitter}}
+                    <div class="twitter">
+                        <a href="{{websites.twitter}}" target="_blank">Twitter</a>
+                    </div>
+                    {{/if}}
+                    {{#if websites.personalWebsite}}
+                    <div class="portfolio">
+                        <a href="{{websites.personalWebsite}}" target="_blank">Portfolio</a>
+                    </div>
+                    {{/if}}
+                </div>
+
+                {{#if employment.length}}
+                <div id="employment">
+                    <h3>EMPLOYMENT</h3>
+                    {{#each employment}}
+                    <div class="company-1 company">
+                        <div class="company-meta-info">
+                            <div class="title">{{title}}</div>
+                            <div class="company-name">{{companyname}}</div>
+                            <div class="time-period">{{timeperiod}}</div>
+                        </div>
+                        <ul class="description">
+                            {{#each description}}
+                                <li>{{this}}</li>
+                            {{/each}}
+                        </ul>
+                    </div>
+                    {{/each}}
+                </div>
+                {{/if}}
+
+                {{#if education.length}}
+                <div id="education">
+                    <h3>EDUCATION</h3>
+                    {{#each education}}
+                    <div class="school-1 school">
+                        <div class="school-meta-info">
+                            <div class="city">{{city}}, {{state}}</div>
+                            <div class="school-name">{{schoolname}}</div>
+                            <div class="time-period">{{timeperiod}}</div>
+                        </div>
+                        <ul class="degree-info">
+                            <li>{{degree}} in {{fieldofstudy}}, {{month}} {{year}}. GPA: {{grade}}</li>
+                        </ul>
+                    </div>
+                    {{/each}}
+                </div>
+                {{/if}}
+
+                {{#if technicalExperience.length}}
+                <div id="technical-experience">
+                    <h3>PERSONAL PROJECTS</h3>
+                    <ul class="projects-list">
+                        {{#each technicalExperience}}
+                            <li><span class="project-name">{{projectname}}</span> ({{timeperiod}}). {{description}}. {{technologies}}</li>
+                        {{/each}}
+                    </ul>
+                </div>
+                {{/if}}
+
+                {{#if skills.length}}
+                <div id="languages-technologies">
+                    <h3>LANGUAGES AND TECHNOLOGIES</h3>
+                    <ul class="skills-list">
+                        {{#each skills}}
+                            <li>{{this}}</li>
+                        {{/each}}
+                    </ul>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+    </body>
+</html>

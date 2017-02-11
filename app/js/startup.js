@@ -2,12 +2,8 @@
  * This module is where resume creator starts-up
  */
 
-const fs = require("fs");
-
+const filesystem = require("./js/filesystem");
 const resumeForm = require("./js/resumeform");
-const utils = require("./js/utils");
-
-//TODO refactor code to move all fs related tasks to utils
 
 /****** Get all elements *******/
 //Buttons, startu-page, resume-form-page
@@ -45,8 +41,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
     //Click event when upload resume template button is clicked
     uploadSavedTemplateButton.addEventListener("click", function() {
         //Fill the select element with files userData/templates from as options
-        var savedFormsfiles = fs.readdirSync(utils.templatesDirFullPath);
-        savedFormsfiles.sort(utils.compareFunctionForSort);
+        var savedFormsfiles = filesystem.getSavedFormsFiles();
+        savedFormsfiles.sort(filesystem.compareFunctionForSort);
         for(var index in savedFormsfiles) {
             var newOption = document.createElement("option");
             newOption.setAttribute("value", savedFormsfiles[index]);
@@ -70,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
 
         //Delete the resume form file from the filesystem
-        utils.deleteResumeFormFile(openModalSelect.options[openModalSelect.selectedIndex].value);
+        filesystem.deleteSavedFormFile(openModalSelect.options[openModalSelect.selectedIndex].value);
 
         //Remove the resume form file from the select element options
         openModalSelect.remove(openModalSelect.selectedIndex);
