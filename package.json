@@ -10,7 +10,7 @@
   },
   "main": "app",
   "scripts": {
-    "package-osx": "electron-packager . --out=dist --overwrite --platform=darwin --arch=x64 --icon=resources/app-icons/stable/resumecreator.icns && cp -r dist/ResumeCreator-darwin-x64/ResumeCreator.app /Applications",
+    "package-osx": "electron-packager . --out=dist --overwrite --platform=darwin --arch=x64 --icon=resources/app-icons/stable/rc.icns && cp -r dist/ResumeCreator-darwin-x64/ResumeCreator.app /Applications",
     "start": "electron app"
   },
   "repository": {

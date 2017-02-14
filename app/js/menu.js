@@ -40,13 +40,6 @@ exports.menu = function() {
       label: "View",
       submenu: [
         {
-        label: 'Reload',
-        accelerator: 'CmdOrCtrl+R',
-        click: function(item, win) {
-                if(win) win.reload();
-            }
-        },
-        {
           label: "Toggle Developer Tools",
           accelerator: "Alt+Command+I",
           click: function(item, win) {
