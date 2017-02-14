@@ -42,8 +42,8 @@ function createMainWindow() {
     });
 
     //If myresumeMain.html and styling.css do not exist in the userData directory, copy them there from ../etc directory
-    var myresumeMainFileSource = "./etc/myresumeMain.html";
-    var myresumeStylingFileSource = "./etc/styling.css";
+    var myresumeMainFileSource = app.getAppPath() + "/etc/myresumeMain.html";
+    var myresumeStylingFileSource = app.getAppPath() + "/etc/styling.css";
     var myresumeMainFileDest = appUserDataPath + "/myresumeMain.html";
     var myresumeStylingFileDest = appUserDataPath + "/styling.css";
     fsExtra.copy(myresumeMainFileSource, myresumeMainFileDest , { replace: false }, function(err) {
