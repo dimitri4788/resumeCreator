@@ -12,7 +12,6 @@ const Handlebars = require("handlebars");
 const filesystem = require("./filesystem");
 const utils = require("./utils");
 
-//TODO: remove reload code from menu.js
 /*********************/
 /*      Private      */
 /*********************/

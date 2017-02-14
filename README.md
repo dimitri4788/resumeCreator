@@ -9,8 +9,9 @@ An application that lets you create your resume with ease and no headaches of fo
 
 ### Features
 - Lets you create resume with no need for formatting, indentation et cetera from your side
-- Lets you save currently filled resume form so that later you can start from where you left off
+- Lets you save currently filled resume form so that later on you can start from where you left off
 - Lets you save the resume as a pdf file
+- Lets you arrange (sort) the dynamically added items
 
 Installation
 ------------
@@ -31,7 +32,7 @@ Future Improvements / New Features / Issues
 #### New Features (Future Improvements)
 - Provide different resume templates that user can choose from; major code changes/additions needed
 - Provide user with the feature where they can add/remove different section(s)
-- Make the dynamically added sections draggable up and down so that user can set them at desired location
+- Provide fields validator
 
 #### Issues
 - No known issues yet
