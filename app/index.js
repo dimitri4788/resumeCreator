@@ -1,6 +1,6 @@
 //Load core modules
 const fs = require("fs");
-var fsExtra = require("fs.extra");
+const fsExtra = require("fs.extra");
 const path = require("path");
 const url = require("url");
 

@@ -13,7 +13,6 @@ const filesystem = require("./filesystem");
 const utils = require("./utils");
 
 //TODO: remove reload code from menu.js
-//TODO: asteriskUnsavedForm should also be added whenever we add or remove a dynamically added field
 /*********************/
 /*      Private      */
 /*********************/
@@ -145,6 +144,7 @@ var fillResumeTemplate = function fillResumeTemplate() {
 //Add employment template
 var addEmployment = function addEmployment() {
     addEmploymentButton.addEventListener("click", function() {
+        asteriskUnsavedForm.style.display = "inline";
         idForEmployments++;
         let clonedEmploymentTemplate = employmentTemplate.cloneNode(true);
         clonedEmploymentTemplate.classList.remove("employment-template");
@@ -157,6 +157,7 @@ var addEmployment = function addEmployment() {
 var removeEmployment = function removeEmployment() {
     document.querySelector(".employment-info").addEventListener("click", function(event) {
         if(event.target && event.target.className.indexOf("remove-") >= 0) {
+            asteriskUnsavedForm.style.display = "inline";
             let liToBeRemoved = event.target.closest("li");
             let idOfLiToBeRemoved = liToBeRemoved.id;
             employmentList.removeChild(liToBeRemoved);
@@ -167,6 +168,7 @@ var removeEmployment = function removeEmployment() {
 //Add education template
 var addEducation = function addEducation() {
     addEducationButton.addEventListener("click", function() {
+        asteriskUnsavedForm.style.display = "inline";
         idForEducations++;
         let clonedEducationTemplate = educationTemplate.cloneNode(true);
         clonedEducationTemplate.classList.remove("education-template");
@@ -179,6 +181,7 @@ var addEducation = function addEducation() {
 var removeEducation = function removeEducation() {
     document.querySelector(".education-info").addEventListener("click", function(event) {
         if(event.target && event.target.className.indexOf("remove-") >= 0) {
+            asteriskUnsavedForm.style.display = "inline";
             let liToBeRemoved = event.target.closest("li");
             let idOfLiToBeRemoved = liToBeRemoved.id;
             educationList.removeChild(liToBeRemoved);
@@ -189,6 +192,7 @@ var removeEducation = function removeEducation() {
 //Add project template
 var addProject = function addProject() {
     addProjectButton.addEventListener("click", function() {
+        asteriskUnsavedForm.style.display = "inline";
         idForProjects++;
         let clonedProjectTemplate = projectTemplate.cloneNode(true);
         clonedProjectTemplate.classList.remove("project-template");
@@ -201,6 +205,7 @@ var addProject = function addProject() {
 var removeProject = function removeProject() {
     document.querySelector(".technical-experience-info").addEventListener("click", function(event) {
         if(event.target && event.target.className.indexOf("remove-") >= 0) {
+            asteriskUnsavedForm.style.display = "inline";
             let liToBeRemoved = event.target.closest("li");
             let idOfLiToBeRemoved = liToBeRemoved.id;
             projectList.removeChild(liToBeRemoved);
@@ -211,6 +216,7 @@ var removeProject = function removeProject() {
 //Add new skill template
 var addSkill = function addSkill() {
     addSkillButton.addEventListener("click", function() {
+        asteriskUnsavedForm.style.display = "inline";
         idForSkills++;
         let clonedSkillTemplate = skillTemplate.cloneNode(true);
         clonedSkillTemplate.classList.remove("skill-template");
@@ -223,6 +229,7 @@ var addSkill = function addSkill() {
 var removeSkill = function removeSkill() {
     document.querySelector(".languages-technologies-info").addEventListener("click", function(event) {
         if(event.target && event.target.className.indexOf("remove-") >= 0) {
+            asteriskUnsavedForm.style.display = "inline";
             let liToBeRemoved = event.target.closest("li");
             let idOfLiToBeRemoved = liToBeRemoved.id;
             skillList.removeChild(liToBeRemoved);
@@ -237,6 +244,7 @@ var moveUp = function moveUp() {
     for(let i = 0; i < allSections.length; i++) {
         allSections[i].addEventListener("click", function(event) {
             if(event.target && event.target.className.indexOf("move-up") >= 0) {
+                asteriskUnsavedForm.style.display = "inline";
                 let closestUL = event.target.closest("ul");
                 let movingLI = event.target.closest("li");
                 let previousLI = movingLI.previousSibling;
@@ -255,6 +263,7 @@ var moveDown = function moveDown() {
     for(let i = 0; i < allSections.length; i++) {
         allSections[i].addEventListener("click", function(event) {
             if(event.target && event.target.className.indexOf("move-down") >= 0) {
+                asteriskUnsavedForm.style.display = "inline";
                 let closestUL = event.target.closest("ul");
                 let movingLI = event.target.closest("li");
                 let nextLI = movingLI.nextSibling;
